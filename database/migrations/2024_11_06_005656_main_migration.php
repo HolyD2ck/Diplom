@@ -69,7 +69,7 @@ return new class extends Migration
         // Таблица заказов
         Schema::create('Заказы', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('Пользователи')->onDelete('cascade'); // предполагая, что таблица 'Пользователи' уже создана
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // предполагая, что таблица 'Пользователи' уже создана
             $table->decimal('Итоговая_цена', 10, 2);
             $table->enum('Статус', ['Оплачено', 'В обработке', 'Доставлено', 'Отменено'])->default('Оплачено');
             $table->foreignId('Адрес_Доставки')->nullable()->constrained('Адреса')->onDelete('set null');
