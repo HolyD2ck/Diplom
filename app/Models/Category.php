@@ -3,16 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
 
 class Category extends Model
 {
-    protected $table = "categories";
-    protected $fillable = ["name"];
-    protected $casts = ['name' => 'string'];
+    protected $table = 'категории';
+    protected $fillable = ['название'];
+    protected $casts = [
+        'название' => 'string',
+    ];
 
-    public function products()
+    public function товары()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->hasMany(Product::class, 'категория_id');
+    }
+
+    public function атрибуты()
+    {
+        return $this->belongsToMany(Attribute::class, 'категория_атрибуты', 'категория_id', 'атрибут_id');
     }
 }

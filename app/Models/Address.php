@@ -3,22 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Order;
 
 class Address extends Model
 {
-    protected $table = "addresses";
-    protected $fillable = ["street", "city", "state", "postal_code", "country"];
+    protected $table = 'адреса';
+    protected $fillable = ['улица', 'город', 'область', 'почтовый_индекс', 'страна'];
     protected $casts = [
-        'street' => 'string',
-        'city' => 'string',
-        'state' => 'string',
-        'postal_code' => 'string',
-        'country' => 'string',
+        'улица' => 'string',
+        'город' => 'string',
+        'область' => 'string',
+        'почтовый_индекс' => 'string',
+        'страна' => 'string',
     ];
 
-    public function orders()
+    public function заказы()
     {
-        return $this->hasMany(Order::class, 'shipping_address_id');
+        return $this->hasMany(Order::class, 'адрес_доставки_id');
     }
 }

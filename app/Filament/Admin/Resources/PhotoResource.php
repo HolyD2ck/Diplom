@@ -23,9 +23,14 @@ class PhotoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('path')
+                Forms\Components\TextInput::make('товар_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('путь')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Toggle::make('основное')
+                    ->required(),
             ]);
     }
 
@@ -33,8 +38,13 @@ class PhotoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('path')
+                Tables\Columns\TextColumn::make('товар_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('путь')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('основное')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

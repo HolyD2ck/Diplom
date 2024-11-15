@@ -23,15 +23,18 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\TextInput::make('пользователь_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('total_price')
+                Forms\Components\TextInput::make('итоговая_цена')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
-                Forms\Components\TextInput::make('shipping_address_id')
+                Forms\Components\TextInput::make('статус')
+                    ->required()
+                    ->maxLength(255)
+                    ->default('Оплачено'),
+                Forms\Components\TextInput::make('адрес_доставки_id')
+                    ->required()
                     ->numeric(),
             ]);
     }
@@ -40,14 +43,15 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('пользователь_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('total_price')
+                Tables\Columns\TextColumn::make('итоговая_цена')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('shipping_address_id')
+                Tables\Columns\TextColumn::make('статус')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('адрес_доставки_id')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

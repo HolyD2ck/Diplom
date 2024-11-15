@@ -23,13 +23,13 @@ class AttributeValueResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('product_id')
+                Forms\Components\TextInput::make('товар_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('attribute_id')
+                Forms\Components\TextInput::make('атрибут_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('value')
+                Forms\Components\TextInput::make('значение')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -39,13 +39,13 @@ class AttributeValueResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('product_id')
+                Tables\Columns\TextColumn::make('товар_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('attribute_id')
+                Tables\Columns\TextColumn::make('атрибут_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('value')
+                Tables\Columns\TextColumn::make('значение')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

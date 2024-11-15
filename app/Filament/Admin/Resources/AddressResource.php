@@ -23,21 +23,21 @@ class AddressResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('street')
+                Forms\Components\TextInput::make('улица')
                     ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('city')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('город')
                     ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('state')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('область')
                     ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('postal_code')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('почтовый_индекс')
                     ->required()
                     ->maxLength(20),
-                Forms\Components\TextInput::make('country')
+                Forms\Components\TextInput::make('страна')
                     ->required()
-                    ->maxLength(100),
+                    ->maxLength(255),
             ]);
     }
 
@@ -45,15 +45,15 @@ class AddressResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('street')
+                Tables\Columns\TextColumn::make('улица')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('city')
+                Tables\Columns\TextColumn::make('город')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('state')
+                Tables\Columns\TextColumn::make('область')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('postal_code')
+                Tables\Columns\TextColumn::make('почтовый_индекс')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('country')
+                Tables\Columns\TextColumn::make('страна')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

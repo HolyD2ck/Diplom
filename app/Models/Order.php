@@ -3,31 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Address;
-use App\Models\OrderDetail;
 
 class Order extends Model
 {
-    protected $table = "orders";
-    protected $fillable = ["user_id", "total_price", "status", "shipping_address_id"];
+    protected $table = 'заказы';
+    protected $fillable = ['пользователь_id', 'итоговая_цена', 'статус', 'адрес_доставки_id'];
     protected $casts = [
-        'total_price' => 'decimal:2',
-        'status' => 'string',
+        'итоговая_цена' => 'float',
+        'статус' => 'string',
     ];
 
-    public function user()
+    public function пользователь()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'пользователь_id');
     }
 
-    public function shippingAddress()
+    public function адрес()
     {
-        return $this->belongsTo(Address::class, 'shipping_address_id');
+        return $this->belongsTo(Address::class, 'адрес_доставки_id');
     }
 
-    public function orderDetails()
+    public function детали()
     {
-        return $this->hasMany(OrderDetail::class, 'order_id');
+        return $this->hasMany(OrderDetail::class, 'заказ_id');
     }
 }

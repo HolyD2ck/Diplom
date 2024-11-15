@@ -3,22 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
-use App\Models\Attribute;
 
 class AttributeValue extends Model
 {
-    protected $table = "attribute_values";
-    protected $fillable = ["value", "product_id", "attribute_id"];
-    protected $casts = ['value' => 'string'];
+    protected $table = 'значения_атрибутов';
+    protected $fillable = ['товар_id', 'атрибут_id', 'значение'];
+    protected $casts = [
+        'значение' => 'string',
+    ];
 
-    public function product()
+    public function товар()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'товар_id');
     }
 
-    public function attribute()
+    public function атрибут()
     {
-        return $this->belongsTo(Attribute::class);
+        return $this->belongsTo(Attribute::class, 'атрибут_id');
     }
 }

@@ -3,16 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AttributeValue;
 
 class Attribute extends Model
 {
-    protected $table = "attributes";
-    protected $fillable = ["name"];
-    protected $casts = ['name' => 'string'];
+    protected $table = 'атрибуты';
+    protected $fillable = ['название'];
+    protected $casts = [
+        'название' => 'string',
+    ];
 
-    public function attributeValues()
+    public function категории()
     {
-        return $this->hasMany(AttributeValue::class, 'attribute_id');
+        return $this->belongsToMany(Category::class, 'категория_атрибуты', 'атрибут_id', 'категория_id');
+    }
+
+    public function значения()
+    {
+        return $this->hasMany(AttributeValue::class, 'атрибут_id');
     }
 }

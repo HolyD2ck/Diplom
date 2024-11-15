@@ -23,25 +23,23 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('category_id')
-                    ->required()
+                Forms\Components\TextInput::make('категория_id')
                     ->numeric(),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('название')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Textarea::make('описание')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('manufacturer')
+                Forms\Components\TextInput::make('производитель')
                     ->required()
                     ->maxLength(100),
-                Forms\Components\TextInput::make('price')
+                Forms\Components\TextInput::make('цена')
                     ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\DatePicker::make('release_date')
+                    ->numeric(),
+                Forms\Components\DatePicker::make('дата_выпуска')
                     ->required(),
-                Forms\Components\DatePicker::make('sale_start_date')
+                Forms\Components\DatePicker::make('дата_поступления_в_продажу')
                     ->required(),
             ]);
     }
@@ -50,20 +48,20 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category_id')
+                Tables\Columns\TextColumn::make('категория_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('название')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('manufacturer')
+                Tables\Columns\TextColumn::make('производитель')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
+                Tables\Columns\TextColumn::make('цена')
+                    ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('release_date')
+                Tables\Columns\TextColumn::make('дата_выпуска')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('sale_start_date')
+                Tables\Columns\TextColumn::make('дата_поступления_в_продажу')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
