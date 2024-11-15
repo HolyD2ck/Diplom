@@ -6,98 +6,100 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         // Таблица категорий
-        Schema::create('Категории', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('Название', 255);
+            $table->string('name', 255);
+            $table->timestamps();
         });
 
         // Таблица товаров
-        Schema::create('Товары', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Категория')->constrained('Категории')->onDelete('cascade');
-            $table->string('Название', 255);
-            $table->text('Описание');
-            $table->string('Производитель', 100);
-            $table->decimal('Цена', 10, 2);
-            $table->date('Дата_выпуска');
-            $table->date('Дата_поступления_в_продажу');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->string('name', 255);
+            $table->text('description');
+            $table->string('manufacturer', 100);
+            $table->decimal('price', 10, 2);
+            $table->date('release_date');
+            $table->date('sale_start_date');
+            $table->timestamps();
         });
 
         // Таблица фотографий
-        Schema::create('Фотографии', function (Blueprint $table) {
+        Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->string('Фото', 255);
+            $table->string('path', 255);
+            $table->timestamps();
         });
 
         // Промежуточная таблица для связи товаров и фотографий (многие ко многим)
-        Schema::create('Товар_Фотографии', function (Blueprint $table) {
-            $table->foreignId('tovar_id')->constrained('Товары')->onDelete('cascade');
-            $table->foreignId('photo_id')->constrained('Фотографии')->onDelete('cascade');
-            $table->primary(['tovar_id', 'photo_id']);
+        Schema::create('product_photo', function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('photo_id')->constrained('photos')->onDelete('cascade');
+            $table->primary(['product_id', 'photo_id']);
         });
 
         // Таблица параметров
-        Schema::create('Параметры', function (Blueprint $table) {
+        Schema::create('attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('Название', 100);
+            $table->string('name', 100);
+            $table->timestamps();
         });
 
         // Таблица значений параметров для товаров
-        Schema::create('Значения', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tovar_id')->constrained('Товары')->onDelete('cascade');
-            $table->foreignId('attribute_id')->constrained('Параметры')->onDelete('cascade');
-            $table->string('Значение', 255);
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('attribute_id')->constrained('attributes')->onDelete('cascade');
+            $table->string('value', 255);
+            $table->timestamps();
         });
 
         // Таблица адресов
-        Schema::create('Адреса', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('Улица', 100);
-            $table->string('Город', 100);
-            $table->string('Область', 100);
-            $table->string('Почтовый_Индекс', 20);
-            $table->string('Страна', 100);
+            $table->string('street', 100);
+            $table->string('city', 100);
+            $table->string('state', 100);
+            $table->string('postal_code', 20);
+            $table->string('country', 100);
+            $table->timestamps();
         });
 
         // Таблица заказов
-        Schema::create('Заказы', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // предполагая, что таблица 'Пользователи' уже создана
-            $table->decimal('Итоговая_цена', 10, 2);
-            $table->enum('Статус', ['Оплачено', 'В обработке', 'Доставлено', 'Отменено'])->default('Оплачено');
-            $table->foreignId('Адрес_Доставки')->nullable()->constrained('Адреса')->onDelete('set null');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->decimal('total_price', 10, 2);
+            $table->enum('status', ['Paid', 'Processing', 'Delivered', 'Cancelled'])->default('Paid');
+            $table->foreignId('shipping_address_id')->nullable()->constrained('addresses')->onDelete('set null');
+            $table->timestamps();
         });
 
         // Таблица деталей заказа
-        Schema::create('Детали_Заказа', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('Заказы')->onDelete('cascade');
-            $table->foreignId('tovar_id')->constrained('Товары')->onDelete('cascade');
-            $table->integer('Количество');
-            $table->decimal('Цена', 10, 2);
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->decimal('price', 10, 2);
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('Детали_Заказа');
-        Schema::dropIfExists('Заказы');
-        Schema::dropIfExists('Адреса');
-        Schema::dropIfExists('Значения');
-        Schema::dropIfExists('Параметры');
-        Schema::dropIfExists('Товар_Фотографии');
-        Schema::dropIfExists('Фотографии');
-        Schema::dropIfExists('Товары');
-        Schema::dropIfExists('Категории');
+        Schema::dropIfExists('order_details');
+        Schema::dropIfExists('orders');
+        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('attribute_values');
+        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('product_photo');
+        Schema::dropIfExists('photos');
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('categories');
     }
 };
