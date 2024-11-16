@@ -7,7 +7,6 @@ use App\Filament\Admin\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Tables\Actions\ExportAction;
-use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;    
@@ -87,7 +86,7 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    ExportBulkAction::make()
+                    Tables\Actions\ExportBulkAction::make()
                 ->exporter(\App\Filament\Exports\ProductExporter::class)
                 ]),
                 
