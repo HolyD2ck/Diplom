@@ -9,9 +9,11 @@ use Filament\Forms;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;    
+use Filament\Tables;   
+use Tables\Actions;   
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Exports\ProductExporter;
+use App\Filament\Exports\ProductExporterFormats;use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
@@ -79,16 +81,39 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                
             ])
             ->headerActions([
-                ExportAction::make()->exporter(\App\Filament\Exports\ProductExporter::class)
+                ExportAction::make()
+                    ->exporter(ProductExporter::class),
+                    Tables\Actions\Action::make('export_txt')
+                        ->label('Экспорт в TXT')
+                        ->action(function () {
+                         
+                            return ProductExporter::exportToTxt();
+                        })
+                        ,
+                    Tables\Actions\Action::make('export_xml')
+                        ->label('Экспорт в XML')
+                        ->action(function () {
+                         
+                            return ProductExporter::exportToXML();
+                        })
+                        ,
+                    Tables\Actions\Action::make('export_yaml')
+                        ->label('Экспорт в YAML')
+                        ->action(function () {
+                         
+                            return ProductExporter::exportToYaml();
+                        })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ExportBulkAction::make()
-                ->exporter(\App\Filament\Exports\ProductExporter::class)
+                        ->exporter(ProductExporter::class),
                 ]),
+                
                 
             ]);
     }
