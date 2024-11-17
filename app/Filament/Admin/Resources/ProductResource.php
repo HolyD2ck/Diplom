@@ -106,6 +106,14 @@ class ProductResource extends Resource
                          
                             return ProductExporter::exportToYaml();
                         })
+                        ,
+                    Tables\Actions\Action::make('import')
+                        ->label('Внести в БД')
+                        ->action(function () {
+                         
+                            return ProductExporter::import();
+                        })
+                        
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

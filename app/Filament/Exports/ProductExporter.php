@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use SimpleXMLElement;
 use Symfony\Component\Yaml\Yaml;
+use Carbon\Carbon; 
+use Illuminate\Support\Facades\File;
+use League\Csv\Reader;
 
 class ProductExporter extends Exporter
 {
@@ -128,5 +131,77 @@ class ProductExporter extends Exporter
         ]);
 
         return $body;
+    }
+
+    public static function import()
+    {
+        $xml = simplexml_load_file(storage_path('app/products_export.xml'));
+        foreach ($xml->product as $importproduct) 
+        {
+            $product = new Product();
+            $product->Название = $importproduct->название;
+            $product->Описание = $importproduct->описание;
+            $product->Производитель = $importproduct->производитель;
+            $product->Цена = $importproduct->цена;
+            $product->Дата_выпуска = $importproduct->дата_выпуска;
+            $product->Дата_поступления_в_продажу = $importproduct->дата_поступления_в_продажу;
+            $product->save();
+        }
+        $yaml = file_get_contents(storage_path('app/products_export.yaml'));
+        $products = Yaml::parse($yaml);
+        foreach ($products as $importproduct) 
+        {
+            $product = new Product();
+            $product->Название = $importproduct['название'];
+            $product->Описание = $importproduct['описание'];
+            $product->Производитель = $importproduct['производитель'];
+            $product->Цена = $importproduct['цена'];
+            $product->Дата_выпуска = Carbon::createFromTimestamp($importproduct['дата_выпуска'])->format('Y-m-d H:i:s');
+            $product->Дата_поступления_в_продажу = Carbon::createFromTimestamp($importproduct['дата_поступления_в_продажу'])->format('Y-m-d H:i:s');
+            $product->save();
+        }
+    
+        $basePath = storage_path('app/private/filament_exports');
+        $directories = File::directories($basePath);  
+        usort($directories, function($a, $b) {
+            return basename($a) <=> basename($b);
+        });
+        $latestDirectory = end($directories);
+        $csvFile = $latestDirectory . '/0000000000000001.csv';
+        if (file_exists($csvFile)) {
+            $csv = Reader::createFromPath($csvFile, 'r');
+            $csv->setDelimiter(',');
+            $rows = $csv->getIterator();
+        
+            foreach ($rows as $row) {
+                $product = new Product();
+                $product->Название = $row[2];
+                $product->Описание = $row[3];
+                $product->Производитель = $row[4];
+                $product->Цена = $row[5];
+                $product->Дата_выпуска = $row[6];
+                $product->Дата_поступления_в_продажу = $row[7];
+                $product->save();
+            }
+        }
+
+        $txt = file_get_contents(storage_path('app/products_export.txt'));
+        $products = explode("\n", $txt);
+        
+        foreach ($products as $importproduct) {
+            $importproductData = explode(";", $importproduct);
+
+            if (count($importproductData) < 7) {
+                continue; 
+            }
+            $product = new Product();
+            $product->Название = $importproductData[1];
+            $product->Описание = $importproductData[2];
+            $product->Производитель = $importproductData[3];
+            $product->Цена = $importproductData[4];
+            $product->Дата_выпуска = $importproductData[5] ;
+            $product->Дата_поступления_в_продажу = $importproductData[6];
+            $product->save();
+        }         
     }
 }
