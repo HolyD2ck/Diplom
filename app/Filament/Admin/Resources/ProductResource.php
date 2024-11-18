@@ -86,33 +86,33 @@ class ProductResource extends Resource
             ->headerActions([
                 ExportAction::make()
                     ->exporter(ProductExporter::class),
-                    Tables\Actions\Action::make('export_txt')
-                        ->label('Экспорт в TXT')
-                        ->action(function () {
+                    // Tables\Actions\Action::make('export_txt')
+                    //     ->label('Экспорт в TXT')
+                    //     ->action(function () {
                          
-                            return ProductExporter::exportToTxt();
-                        })
-                        ,
-                    Tables\Actions\Action::make('export_xml')
-                        ->label('Экспорт в XML')
-                        ->action(function () {
+                    //         return ProductExporter::exportToTxt();
+                    //     })
+                    //     ,
+                    // Tables\Actions\Action::make('export_xml')
+                    //     ->label('Экспорт в XML')
+                    //     ->action(function () {
                          
-                            return ProductExporter::exportToXML();
-                        })
-                        ,
-                    Tables\Actions\Action::make('export_yaml')
-                        ->label('Экспорт в YAML')
-                        ->action(function () {
+                    //         return ProductExporter::exportToXML();
+                    //     })
+                    //     ,
+                    // Tables\Actions\Action::make('export_yaml')
+                    //     ->label('Экспорт в YAML')
+                    //     ->action(function () {
                          
-                            return ProductExporter::exportToYaml();
-                        })
-                        ,
-                    Tables\Actions\Action::make('import')
-                        ->label('Внести в БД')
-                        ->action(function () {
+                    //         return ProductExporter::exportToYaml();
+                    //     })
+                    //     ,
+                    // Tables\Actions\Action::make('import')
+                    //     ->label('Внести в БД')
+                    //     ->action(function () {
                          
-                            return ProductExporter::import();
-                        })
+                    //         return ProductExporter::import();
+                    //     })
                         
             ])
             ->bulkActions([
