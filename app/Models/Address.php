@@ -7,17 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     protected $table = 'адреса';
-    protected $fillable = ['улица', 'город', 'область', 'почтовый_индекс', 'страна'];
-    protected $casts = [
-        'улица' => 'string',
-        'город' => 'string',
-        'область' => 'string',
-        'почтовый_индекс' => 'string',
-        'страна' => 'string',
-    ];
 
-    public function заказы()
+    protected $fillable = ['улица', 'город', 'область', 'почтовый_индекс', 'страна'];  // заполняемые поля
+
+    // Связь с заказами (от один ко многим)
+    public function orders()
     {
-        return $this->hasMany(Order::class, 'адрес_доставки_id');
+        return $this->hasMany(Order::class, 'адрес_доставки_id');  // связь с моделью Order через 'адрес_доставки_id'
     }
 }

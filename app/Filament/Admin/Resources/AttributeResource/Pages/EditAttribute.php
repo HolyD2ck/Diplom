@@ -3,17 +3,17 @@
 namespace App\Filament\Admin\Resources\AttributeResource\Pages;
 
 use App\Filament\Admin\Resources\AttributeResource;
-use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\DB;
 
 class EditAttribute extends EditRecord
 {
     protected static string $resource = AttributeResource::class;
 
-    protected function getHeaderActions(): array
+    protected function mutateFormDataBeforeSave(array $data): array
     {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+        return array_merge($data, [
+            'id' => DB::table('атрибуты')->max('id') + 1,
+        ]);
     }
 }

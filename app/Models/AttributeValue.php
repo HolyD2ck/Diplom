@@ -8,16 +8,15 @@ class AttributeValue extends Model
 {
     protected $table = 'значения_атрибутов';
     protected $fillable = ['товар_id', 'атрибут_id', 'значение'];
-    protected $casts = [
-        'значение' => 'string',
-    ];
 
-    public function товар()
+    // Связь с товаром (один к одному)
+    public function product()
     {
         return $this->belongsTo(Product::class, 'товар_id');
     }
 
-    public function атрибут()
+    // Связь с атрибутом (один к одному)
+    public function attribute()
     {
         return $this->belongsTo(Attribute::class, 'атрибут_id');
     }

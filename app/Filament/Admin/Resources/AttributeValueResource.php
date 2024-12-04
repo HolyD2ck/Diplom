@@ -29,9 +29,14 @@ class AttributeValueResource extends Resource
                 Forms\Components\TextInput::make('атрибут_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('значение')
-                    ->required()
+                Forms\Components\TextInput::make('строковое_значение')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('числовое_значение')
+                    ->numeric(),
+                Forms\Components\Toggle::make('булево_значение'),
+                Forms\Components\TextInput::make('десятичное_значение')
+                    ->numeric(),
+                Forms\Components\DatePicker::make('датовое_значение'),
             ]);
     }
 
@@ -45,8 +50,19 @@ class AttributeValueResource extends Resource
                 Tables\Columns\TextColumn::make('атрибут_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('значение')
+                Tables\Columns\TextColumn::make('строковое_значение')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('числовое_значение')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('булево_значение')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('десятичное_значение')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('датовое_значение')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

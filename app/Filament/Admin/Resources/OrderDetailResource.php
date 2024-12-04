@@ -23,7 +23,18 @@ class OrderDetailResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('заказ_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('товар_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('количество')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('цена')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -31,7 +42,26 @@ class OrderDetailResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('заказ_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('товар_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('количество')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('цена')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

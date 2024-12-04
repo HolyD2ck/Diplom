@@ -3,15 +3,13 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\AttributeResource\Pages;
-use App\Filament\Admin\Resources\AttributeResource\RelationManagers;
 use App\Models\Attribute;
+use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AttributeResource extends Resource
 {
@@ -25,7 +23,23 @@ class AttributeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('название')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Название'),
+                Forms\Components\Select::make('тип_данных')
+                    ->required()
+                    ->options([
+                        'строка' => 'Строка',
+                        'число' => 'Число',
+                        'булево' => 'Булево',
+                        'дата' => 'Дата',
+                        'десятичное' => 'Десятичное',
+                    ])
+                    ->label('Тип данных'),
+                Forms\Components\MultiSelect::make('categories')
+                    ->label('Категории')
+                    ->relationship('categories', 'название')
+                    ->required(),
+
             ]);
     }
 
@@ -34,7 +48,12 @@ class AttributeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('название')
+                    ->label('Название')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('тип_данных')
+                    ->label('Тип данных'),
+                Tables\Columns\TagsColumn::make('categories.название')
+                    ->label('Категории'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

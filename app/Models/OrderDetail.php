@@ -8,20 +8,25 @@ use App\Models\Product;
 
 class OrderDetail extends Model
 {
-    protected $table = "order_details";
-    protected $fillable = ["order_id", "product_id", "quantity", "price"];
+    protected $table = 'детали_заказов';
+    protected $fillable = ['заказ_id', 'товар_id', 'количество', 'цена'];
     protected $casts = [
-        'quantity' => 'integer',
-        'price' => 'decimal:2',
+        'количество' => 'integer',
+        'цена' => 'decimal:2',
     ];
 
+    protected $with = ['order', 'product']; // Подгрузка связанных моделей
+
+    // Связь с заказом
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'заказ_id');
     }
 
+    // Связь с товаром
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'товар_id');
     }
+
 }

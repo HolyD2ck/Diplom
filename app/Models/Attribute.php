@@ -4,20 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Attribute extends Model
 {
     protected $table = 'атрибуты';
-    protected $fillable = ['название'];
+
+    protected $fillable = ['название', 'тип_данных'];
+
     protected $casts = [
-        'название' => 'string',
+        'тип_данных' => 'string',
     ];
 
-    public function категории()
+    // Связь многие ко многим с категориями
+    public function categories()
     {
         return $this->belongsToMany(Category::class, 'категория_атрибуты', 'атрибут_id', 'категория_id');
     }
-
-    public function значения()
+    // Связь один ко многим с значениями атрибутов
+    public function values()
     {
         return $this->hasMany(AttributeValue::class, 'атрибут_id');
     }

@@ -13,9 +13,23 @@ class Photo extends Model
         'основное' => 'boolean',
     ];
 
-    public function товар()
+    protected $with = ['product'];
+
+    // Связь с товаром
+    public function product()
     {
         return $this->belongsTo(Product::class, 'товар_id');
     }
-}
 
+    // Логика для того, чтобы только одно фото было основным
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if ($model->основное) {
+                Photo::where('товар_id', $model->товар_id)
+                    ->update(['основное' => false]);
+            }
+        });
+    }
+}

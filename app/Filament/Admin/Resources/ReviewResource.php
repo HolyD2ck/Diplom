@@ -2,9 +2,9 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\AddressResource\Pages;
-use App\Filament\Admin\Resources\AddressResource\RelationManagers;
-use App\Models\Address;
+use App\Filament\Admin\Resources\ReviewResource\Pages;
+use App\Filament\Admin\Resources\ReviewResource\RelationManagers;
+use App\Models\Review;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AddressResource extends Resource
+class ReviewResource extends Resource
 {
-    protected static ?string $model = Address::class;
+    protected static ?string $model = Review::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,21 +23,18 @@ class AddressResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('улица')
+                Forms\Components\TextInput::make('товар_id')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('город')
+                    ->numeric(),
+                Forms\Components\TextInput::make('пользователь_id')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('область')
+                    ->numeric(),
+                Forms\Components\Textarea::make('отзыв')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('почтовый_индекс')
-                    ->required()
-                    ->maxLength(20),
-                Forms\Components\TextInput::make('страна')
-                    ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('рейтинг')
+                    ->numeric()
+                    ->default(5),
             ]);
     }
 
@@ -45,16 +42,15 @@ class AddressResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('улица')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('город')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('область')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('почтовый_индекс')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('страна')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('товар_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('пользователь_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('рейтинг')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -87,9 +83,9 @@ class AddressResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAddresses::route('/'),
-            'create' => Pages\CreateAddress::route('/create'),
-            'edit' => Pages\EditAddress::route('/{record}/edit'),
+            'index' => Pages\ListReviews::route('/'),
+            'create' => Pages\CreateReview::route('/create'),
+            'edit' => Pages\EditReview::route('/{record}/edit'),
         ];
     }
 }

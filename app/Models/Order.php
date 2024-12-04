@@ -10,21 +10,34 @@ class Order extends Model
     protected $fillable = ['пользователь_id', 'итоговая_цена', 'статус', 'адрес_доставки_id'];
     protected $casts = [
         'итоговая_цена' => 'float',
-        'статус' => 'string',
     ];
 
-    public function пользователь()
+    protected $with = ['user', 'address', 'orderDetails']; // Подгрузка связанных моделей
+
+    // Связь с пользователем (один ко многим)
+    public function user()
     {
         return $this->belongsTo(User::class, 'пользователь_id');
     }
 
-    public function адрес()
+    // Связь с адресом (один ко многим)
+    public function address()
     {
         return $this->belongsTo(Address::class, 'адрес_доставки_id');
     }
 
-    public function детали()
+    // Связь с деталями заказа (один ко многим)
+    public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'заказ_id');
     }
+
+    // Дополнительный метод для получения товаров через детали заказа
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, OrderDetail::class, 'заказ_id', 'id', 'id', 'товар_id');
+    }
+
+    // Метод для расчета итоговой цены заказа
+
 }

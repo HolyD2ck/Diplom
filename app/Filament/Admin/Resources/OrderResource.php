@@ -30,9 +30,7 @@ class OrderResource extends Resource
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('статус')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('Оплачено'),
+                    ->required(),
                 Forms\Components\TextInput::make('адрес_доставки_id')
                     ->required()
                     ->numeric(),
@@ -49,8 +47,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('итоговая_цена')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('статус')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('статус'),
                 Tables\Columns\TextColumn::make('адрес_доставки_id')
                     ->numeric()
                     ->sortable(),

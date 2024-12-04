@@ -3,18 +3,15 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource\Pages;
-use App\Filament\Admin\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Attribute;
+use Filament\Forms\Components\{Select, CheckboxList, TextInput, Textarea, FileUpload, Toggle, Repeater, DatePicker};
 use Filament\Forms;
-use Filament\Tables\Actions\ExportAction;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;   
-use Tables\Actions;   
+use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Exports\ProductExporter;
-use App\Filament\Exports\ProductExporterFormats;use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
@@ -26,23 +23,40 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('категория_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('название')
+                Select::make('категория_id')
+                    ->label('Категория')
+                    ->options(Category::all()->pluck('название', 'id'))
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('описание')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('производитель')
-                    ->required()
+                    ->searchable()
+                    ->reactive()
+                    ->afterStateUpdated(fn($state, $set) => $set('атрибуты', [])),
+                Repeater::make('атрибуты')
+                    ->label('Атрибуты')
+                    ->maxItems(1)
+                    ->schema(function ($get) {
+                        $categoryId = $get('категория_id');
+                        $attributes = Category::find($categoryId)?->attributes;
+                        return $attributes?->map(function ($attribute) {
+                            return TextInput::make("атрибут_{$attribute->id}")
+                                ->label($attribute->название)
+                                ->required();
+                        })->toArray() ?? [];
+                    })
+                    ->columns(3),
+                TextInput::make('название')
                     ->maxLength(100),
-                Forms\Components\TextInput::make('цена')
-                    ->required()
+                Textarea::make('описание')
+                    ->columnSpanFull(),
+                TextInput::make('производитель')
+                    ->maxLength(100),
+                TextInput::make('цена')
                     ->numeric(),
-                Forms\Components\DatePicker::make('дата_выпуска')
-                    ->required(),
-                Forms\Components\DatePicker::make('дата_поступления_в_продажу')
+                DatePicker::make('дата_выпуска'),
+                DatePicker::make('дата_поступления_в_продажу'),
+                FileUpload::make('фотографии')
+                    ->label('Фотографии')
+                    ->multiple()
+                    ->image()
                     ->required(),
             ]);
     }
@@ -76,60 +90,19 @@ class ProductResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                
-            ])
-            ->headerActions([
-                ExportAction::make()
-                    ->exporter(ProductExporter::class),
-                    // Tables\Actions\Action::make('export_txt')
-                    //     ->label('Экспорт в TXT')
-                    //     ->action(function () {
-                         
-                    //         return ProductExporter::exportToTxt();
-                    //     })
-                    //     ,
-                    // Tables\Actions\Action::make('export_xml')
-                    //     ->label('Экспорт в XML')
-                    //     ->action(function () {
-                         
-                    //         return ProductExporter::exportToXML();
-                    //     })
-                    //     ,
-                    // Tables\Actions\Action::make('export_yaml')
-                    //     ->label('Экспорт в YAML')
-                    //     ->action(function () {
-                         
-                    //         return ProductExporter::exportToYaml();
-                    //     })
-                    //     ,
-                    // Tables\Actions\Action::make('import')
-                    //     ->label('Внести в БД')
-                    //     ->action(function () {
-                         
-                    //         return ProductExporter::import();
-                    //     })
-                        
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ExportBulkAction::make()
-                        ->exporter(ProductExporter::class),
                 ]),
-                
-                
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 

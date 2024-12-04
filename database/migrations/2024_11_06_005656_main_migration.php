@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,18 +10,21 @@ return new class extends Migration {
         // Таблица категорий
         Schema::create('категории', function (Blueprint $table) {
             $table->id();
-            $table->string('название', 255);
+            $table->string('название', 255)->unique();
             $table->timestamps();
         });
 
         // Таблица атрибутов
         Schema::create('атрибуты', function (Blueprint $table) {
             $table->id();
-            $table->string('название', 255);
+            $table->string('название', 255)->unique();
+            $table->enum('тип_данных', ['строка', 'число', 'булево', 'дата', 'десятичное'])
+                ->default('строка')
+                ->comment('Тип данных атрибута');
             $table->timestamps();
         });
 
-        // Связь многие ко многим между категориями и атрибутами
+        // Таблица связи категории и атрибутов
         Schema::create('категория_атрибуты', function (Blueprint $table) {
             $table->foreignId('категория_id')->constrained('категории')->onDelete('cascade');
             $table->foreignId('атрибут_id')->constrained('атрибуты')->onDelete('cascade');
@@ -32,11 +36,11 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('категория_id')->nullable()->constrained('категории')->onDelete('set null');
             $table->string('название', 255);
-            $table->text('описание');
-            $table->string('производитель', 100);
-            $table->decimal('цена', 12, 2);
-            $table->date('дата_выпуска');
-            $table->date('дата_поступления_в_продажу');
+            $table->text('описание')->nullable();
+            $table->string('производитель', 100)->nullable();
+            $table->decimal('цена', 12, 2)->nullable();
+            $table->date('дата_выпуска')->nullable();
+            $table->date('дата_поступления_в_продажу')->nullable();
             $table->timestamps();
         });
 
@@ -54,7 +58,11 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('товар_id')->constrained('товары')->onDelete('cascade');
             $table->foreignId('атрибут_id')->constrained('атрибуты')->onDelete('cascade');
-            $table->string('значение', 255);
+            $table->string('строковое_значение', 255)->nullable();
+            $table->integer('числовое_значение')->nullable();
+            $table->boolean('булево_значение')->nullable();
+            $table->decimal('десятичное_значение', 12, 2)->nullable();
+            $table->date('датовое_значение')->nullable();
             $table->timestamps();
         });
 
@@ -88,10 +96,30 @@ return new class extends Migration {
             $table->decimal('цена', 12, 2);
             $table->timestamps();
         });
+
+        // Таблица отзывов
+        Schema::create('отзывы', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('товар_id')->constrained('товары')->onDelete('cascade');
+            $table->foreignId('пользователь_id')->constrained('users')->onDelete('cascade'); // предполагается, что у вас есть таблица users
+            $table->text('отзыв');
+            $table->integer('рейтинг')->nullable()->default(5)->comment('Рейтинг от 1 до 5');
+            $table->timestamps();
+        });
+
+        // Таблица для хранения среднего рейтинга товара
+        Schema::create('рейтинг_товаров', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('товар_id')->constrained('товары')->onDelete('cascade');
+            $table->decimal('средний_рейтинг', 3, 2)->default(0)->comment('Средний рейтинг товара');
+            $table->timestamps();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('рейтинг_товаров');
+        Schema::dropIfExists('отзывы');
         Schema::dropIfExists('детали_заказов');
         Schema::dropIfExists('заказы');
         Schema::dropIfExists('адреса');
