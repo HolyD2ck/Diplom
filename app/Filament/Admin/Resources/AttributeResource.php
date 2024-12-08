@@ -25,19 +25,9 @@ class AttributeResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Название'),
-                Forms\Components\Select::make('тип_данных')
-                    ->required()
-                    ->options([
-                        'строка' => 'Строка',
-                        'число' => 'Число',
-                        'булево' => 'Булево',
-                        'дата' => 'Дата',
-                        'десятичное' => 'Десятичное',
-                    ])
-                    ->label('Тип данных'),
-                Forms\Components\MultiSelect::make('categories')
+                Forms\Components\MultiSelect::make('категории')
                     ->label('Категории')
-                    ->relationship('categories', 'название')
+                    ->relationship('категории', 'название')
                     ->required(),
 
             ]);
@@ -50,9 +40,7 @@ class AttributeResource extends Resource
                 Tables\Columns\TextColumn::make('название')
                     ->label('Название')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('тип_данных')
-                    ->label('Тип данных'),
-                Tables\Columns\TagsColumn::make('categories.название')
+                Tables\Columns\TagsColumn::make('категории.название')
                     ->label('Категории'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

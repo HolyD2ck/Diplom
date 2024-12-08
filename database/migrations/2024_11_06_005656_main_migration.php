@@ -38,6 +38,7 @@ return new class extends Migration {
             $table->string('название', 255);
             $table->text('описание')->nullable();
             $table->string('производитель', 100)->nullable();
+            $table->integer('скидка')->nullable();
             $table->decimal('цена', 12, 2)->nullable();
             $table->date('дата_выпуска')->nullable();
             $table->date('дата_поступления_в_продажу')->nullable();
@@ -58,11 +59,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('товар_id')->constrained('товары')->onDelete('cascade');
             $table->foreignId('атрибут_id')->constrained('атрибуты')->onDelete('cascade');
-            $table->string('строковое_значение', 255)->nullable();
-            $table->integer('числовое_значение')->nullable();
-            $table->boolean('булево_значение')->nullable();
-            $table->decimal('десятичное_значение', 12, 2)->nullable();
-            $table->date('датовое_значение')->nullable();
+            $table->string('значение', 255)->nullable();
             $table->timestamps();
         });
 

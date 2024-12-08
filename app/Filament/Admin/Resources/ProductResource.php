@@ -1,12 +1,13 @@
 <?php
+
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource\Pages;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Attribute;
-use Filament\Forms\Components\{Select, CheckboxList, TextInput, Textarea, FileUpload, Toggle, Repeater, DatePicker};
-use Filament\Forms;
+use App\Models\AttributeValue;
+use Filament\Forms\Components\{Select, TextInput, Textarea, DatePicker, Repeater};
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,47 +28,30 @@ class ProductResource extends Resource
                     ->options(Category::all()->pluck('название', 'id'))
                     ->required()
                     ->searchable()
-                    ->reactive()
-                    ->afterStateUpdated(fn($state, $set) => $set('атрибуты', [])),
+                    ->reactive(),
+
                 Repeater::make('атрибуты')
                     ->label('Атрибуты')
                     ->maxItems(1)
                     ->schema(function ($get) {
                         $categoryId = $get('категория_id');
                         $attributes = Category::find($categoryId)?->аттрибуты;
+
                         return $attributes?->map(function ($attribute) {
-                            return TextInput::make("атрибут_{$attribute->id}")
+                            return TextInput::make($attribute->id)
                                 ->label($attribute->название)
-                                ->required()
-                                ->afterStateUpdated(
-                                    fn($state, $set, $get) =>
-                                    Attribute::updateOrCreate(
-                                        ['товар_id' => $get('id'), 'атрибут_id' => $attribute->id],
-                                        ['value' => $state]
-                                    )
-                                );
+                                ->required();
                         })->toArray() ?? [];
                     })
                     ->columns(3),
-                TextInput::make('название')
-                    ->maxLength(100),
-                Textarea::make('описание')
-                    ->columnSpanFull(),
-                TextInput::make('производитель')
-                    ->maxLength(100),
-                TextInput::make('цена')
-                    ->numeric()
-                    ->inputMode('decimal')
-                    ->required()
-                    ->minValue(0)
-                ,
+
+                TextInput::make('название')->maxLength(100),
+                Textarea::make('описание')->columnSpanFull(),
+                TextInput::make('производитель')->maxLength(100),
+                TextInput::make('цена')->numeric()->default(0)->inputMode('decimal')->required()->minValue(0),
+                TextInput::make('скидка')->numeric()->default(0)->inputMode('numeric')->minValue(0)->maxValue(100),
                 DatePicker::make('дата_выпуска'),
                 DatePicker::make('дата_поступления_в_продажу'),
-                FileUpload::make('фотографии')
-                    ->label('Фотографии')
-                    ->multiple()
-                    ->image()
-                    ->required(),
             ]);
     }
 
@@ -78,23 +62,35 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('категория_id')
                     ->numeric()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('название')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('производитель')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('цена')
                     ->numeric()
+                    ->default(0)
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('скидка')
+                    ->numeric()
+                    ->default(0),
+
                 Tables\Columns\TextColumn::make('дата_выпуска')
                     ->date()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('дата_поступления_в_продажу')
                     ->date()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -112,10 +108,8 @@ class ProductResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-        ];
+        return [];
     }
-
     public static function getPages(): array
     {
         return [

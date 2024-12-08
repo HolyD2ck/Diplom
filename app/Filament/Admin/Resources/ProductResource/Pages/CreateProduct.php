@@ -2,12 +2,33 @@
 
 namespace App\Filament\Admin\Resources\ProductResource\Pages;
 
+use Illuminate\Support\Facades\DB;
 use App\Filament\Admin\Resources\ProductResource;
 use Filament\Actions;
+use App\Models\AttributeValue;
+use App\Models\Product;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Forms\Form;
+
 
 class CreateProduct extends CreateRecord
 {
     protected static string $resource = ProductResource::class;
 
+    protected function afterCreate(): void
+    {
+        $attributes = $this->data['атрибуты'];
+        $lastProductId = Product::max('id');
+
+        foreach ($attributes as $key => $attribute) {
+
+            foreach ($attribute as $attributeId => $value) {
+                DB::table('значения_атрибутов')->insert([
+                    'товар_id' => $lastProductId,
+                    'атрибут_id' => $attributeId,
+                    'значение' => $value,
+                ]);
+            }
+        }
+    }
 }

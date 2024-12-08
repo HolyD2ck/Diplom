@@ -4,16 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Attribute extends Model
 {
     protected $table = 'атрибуты';
 
-    protected $fillable = ['название', 'тип_данных'];
-
-    protected $casts = [
-        'тип_данных' => 'string',
-    ];
+    protected $fillable = ['название'];
 
     // Связь многие ко многим с категориями
     public function категории()
