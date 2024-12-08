@@ -7,11 +7,12 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
-use Filament\Forms\Components\{Select, TextInput, Textarea, DatePicker, Repeater};
+use Filament\Forms\Components\{Select, TextInput, Textarea, DatePicker, Repeater, FileUpload};
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Symfony\Component\Translation\Loader\FileLoader;
 
 class ProductResource extends Resource
 {
@@ -29,7 +30,6 @@ class ProductResource extends Resource
                     ->required()
                     ->searchable()
                     ->reactive(),
-
                 Repeater::make('атрибуты')
                     ->label('Атрибуты')
                     ->maxItems(1)
@@ -44,7 +44,6 @@ class ProductResource extends Resource
                         })->toArray() ?? [];
                     })
                     ->columns(3),
-
                 TextInput::make('название')->maxLength(100),
                 Textarea::make('описание')->columnSpanFull(),
                 TextInput::make('производитель')->maxLength(100),
@@ -52,9 +51,23 @@ class ProductResource extends Resource
                 TextInput::make('скидка')->numeric()->default(0)->inputMode('numeric')->minValue(0)->maxValue(100),
                 DatePicker::make('дата_выпуска'),
                 DatePicker::make('дата_поступления_в_продажу'),
+                FileUpload::make('основное_фото')->image()->required()->disk('public')->label('Основное фото')
+                    ->directory(function ($get) {
+                        $name = $get('название');
+                        return 'photos/products/' . $name;
+                    }),
+                FileUpload::make('фотографии')
+                    ->image()
+                    ->required()
+                    ->multiple()
+                    ->disk('public')
+                    ->label('Вторичные фотографии')
+                    ->directory(function ($get) {
+                        $name = $get('название');
+                        return 'photos/products/' . $name;
+                    })
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -105,7 +118,6 @@ class ProductResource extends Resource
                 ]),
             ]);
     }
-
     public static function getRelations(): array
     {
         return [];

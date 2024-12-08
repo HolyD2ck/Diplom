@@ -19,7 +19,8 @@ class CreateProduct extends CreateRecord
     {
         $attributes = $this->data['атрибуты'];
         $lastProductId = Product::max('id');
-
+        $path = $this->data['фотографии'];
+        //dd($this->data['основное_фото']);
         foreach ($attributes as $key => $attribute) {
 
             foreach ($attribute as $attributeId => $value) {
@@ -29,6 +30,18 @@ class CreateProduct extends CreateRecord
                     'значение' => $value,
                 ]);
             }
+        }
+        DB::table('фотографии')->insert([
+            'товар_id' => $lastProductId,
+            'путь' => reset($this->data['основное_фото']),
+            'основное' => 1,
+        ]);
+        foreach ($path as $key => $value) {
+            DB::table('фотографии')->insert([
+                'товар_id' => $lastProductId,
+                'путь' => $value,
+                'основное' => 0,
+            ]);
         }
     }
 }
