@@ -31,7 +31,7 @@ class Review extends Model
     }
 
     // Метод для получения оценки
-    public function getRatingAttribute()
+    public function получитьОценку()
     {
         return $this->оценка;
     }

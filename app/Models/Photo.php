@@ -13,10 +13,8 @@ class Photo extends Model
         'основное' => 'boolean',
     ];
 
-    protected $with = ['product'];
-
     // Связь с товаром
-    public function product()
+    public function товар()
     {
         return $this->belongsTo(Product::class, 'товар_id');
     }

@@ -15,8 +15,6 @@ class OrderDetail extends Model
         'цена' => 'decimal:2',
     ];
 
-    protected $with = ['order', 'product']; // Подгрузка связанных моделей
-
     // Связь с заказом
     public function order()
     {

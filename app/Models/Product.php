@@ -27,8 +27,6 @@ class Product extends Model
         'дата_поступления_в_продажу' => 'date',
     ];
 
-    // Подгрузка связанных моделей
-    protected $with = ['категория', 'значенияАтрибутов', 'фотографии', 'отзывы'];
 
     // Связь с категорией (один продукт принадлежит одной категории)
     public function категория()
@@ -61,7 +59,7 @@ class Product extends Model
     }
 
     // Метод для получения средней оценки товара
-    public function getAverageRating()
+    public function средняяОценка()
     {
         return $this->отзывы()->avg('рейтинг');
     }

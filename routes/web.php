@@ -11,5 +11,6 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+Route::apiResource('products', \App\Http\Controllers\ProductController::class)->only(['index', 'show']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

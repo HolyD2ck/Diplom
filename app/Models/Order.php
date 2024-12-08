@@ -12,32 +12,29 @@ class Order extends Model
         'итоговая_цена' => 'float',
     ];
 
-    protected $with = ['user', 'address', 'orderDetails']; // Подгрузка связанных моделей
 
     // Связь с пользователем (один ко многим)
-    public function user()
+    public function пользователь()
     {
         return $this->belongsTo(User::class, 'пользователь_id');
     }
 
     // Связь с адресом (один ко многим)
-    public function address()
+    public function адрес()
     {
         return $this->belongsTo(Address::class, 'адрес_доставки_id');
     }
 
     // Связь с деталями заказа (один ко многим)
-    public function orderDetails()
+    public function деталиЗаказа()
     {
         return $this->hasMany(OrderDetail::class, 'заказ_id');
     }
 
     // Дополнительный метод для получения товаров через детали заказа
-    public function products()
+    public function товары()
     {
         return $this->hasManyThrough(Product::class, OrderDetail::class, 'заказ_id', 'id', 'id', 'товар_id');
     }
-
-    // Метод для расчета итоговой цены заказа
 
 }

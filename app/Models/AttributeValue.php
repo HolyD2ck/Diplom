@@ -10,13 +10,13 @@ class AttributeValue extends Model
     protected $fillable = ['товар_id', 'атрибут_id', 'значение'];
 
     // Связь с товаром (один к одному)
-    public function product()
+    public function товар()
     {
         return $this->belongsTo(Product::class, 'товар_id');
     }
 
     // Связь с атрибутом (один к одному)
-    public function attribute()
+    public function атрибут()
     {
         return $this->belongsTo(Attribute::class, 'атрибут_id');
     }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource\Pages;
@@ -35,11 +34,18 @@ class ProductResource extends Resource
                     ->maxItems(1)
                     ->schema(function ($get) {
                         $categoryId = $get('категория_id');
-                        $attributes = Category::find($categoryId)?->attributes;
+                        $attributes = Category::find($categoryId)?->аттрибуты;
                         return $attributes?->map(function ($attribute) {
                             return TextInput::make("атрибут_{$attribute->id}")
                                 ->label($attribute->название)
-                                ->required();
+                                ->required()
+                                ->afterStateUpdated(
+                                    fn($state, $set, $get) =>
+                                    Attribute::updateOrCreate(
+                                        ['товар_id' => $get('id'), 'атрибут_id' => $attribute->id],
+                                        ['value' => $state]
+                                    )
+                                );
                         })->toArray() ?? [];
                     })
                     ->columns(3),
@@ -50,7 +56,11 @@ class ProductResource extends Resource
                 TextInput::make('производитель')
                     ->maxLength(100),
                 TextInput::make('цена')
-                    ->numeric(),
+                    ->numeric()
+                    ->inputMode('decimal')
+                    ->required()
+                    ->minValue(0)
+                ,
                 DatePicker::make('дата_выпуска'),
                 DatePicker::make('дата_поступления_в_продажу'),
                 FileUpload::make('фотографии')
