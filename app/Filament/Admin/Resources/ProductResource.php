@@ -85,19 +85,36 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('цена')
                     ->numeric()
                     ->default(0)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('скидка')
                     ->numeric()
-                    ->default(0),
+                    ->sortable()
+                    ->default(0)
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('отзывы.отзыв')
+                    ->searchable()
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('средняяОценка.рейтинг')
+                    ->numeric(),
+
+                Tables\Columns\ImageColumn::make('основноеФото.путь')
+                    ->label('Фото')
+                    ->size(80)
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('дата_выпуска')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('дата_поступления_в_продажу')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

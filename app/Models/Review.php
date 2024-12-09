@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
@@ -15,7 +16,7 @@ class Review extends Model
 
     // Значения по умолчанию
     protected $attributes = [
-        'оценка' => 5,  // дефолтная оценка, если она не была установлена
+        'оценка' => 5,
     ];
 
     // Связь с пользователем
@@ -45,6 +46,17 @@ class Review extends Model
             if (strlen($review->текст_отзыва) > 1000) {
                 throw new \Exception('Отзыв не может быть длиннее 1000 символов');
             }
+        });
+        //Обвновление среднего рейтинга товара
+        static::createdorupdated(function ($review) {
+            $averageRating = DB::table('отзывы')
+                ->where('товар_id', $review->товар_id)
+                ->avg('оценка');
+
+            DB::table('рейтинг_товаров')->updateOrInsert(
+                ['товар_id' => $review->товар_id],
+                ['средний_рейтинг' => $averageRating]
+            );
         });
     }
 }

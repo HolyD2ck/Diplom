@@ -50,7 +50,7 @@ class Product extends Model
     // Получить основное фото товара
     public function основноеФото()
     {
-        return $this->фотографии()->where('основное', true)->first();
+        return $this->hasOne(Photo::class, 'товар_id')->where('основное', true);
     }
 
     // Связь с отзывами
@@ -62,6 +62,6 @@ class Product extends Model
     // Метод для получения средней оценки товара
     public function средняяОценка()
     {
-        return $this->отзывы()->avg('рейтинг');
+        return $this->рейтинг ? $this->рейтинг->средний_рейтинг : null;
     }
 }

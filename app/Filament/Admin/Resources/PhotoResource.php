@@ -73,7 +73,10 @@ class PhotoResource extends Resource
             //
         ];
     }
-
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
     public static function getPages(): array
     {
         return [
@@ -82,4 +85,5 @@ class PhotoResource extends Resource
             'edit' => Pages\EditPhoto::route('/{record}/edit'),
         ];
     }
+
 }

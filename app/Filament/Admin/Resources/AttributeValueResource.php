@@ -83,4 +83,8 @@ class AttributeValueResource extends Resource
             'edit' => Pages\EditAttributeValue::route('/{record}/edit'),
         ];
     }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }
