@@ -4,9 +4,12 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Review extends Model
 {
+    use HasFactory;
     protected $table = 'отзывы';
     protected $fillable = ['пользователь_id', 'товар_id', 'рейтинг', 'отзыв'];
     protected $casts = [

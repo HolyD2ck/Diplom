@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Order extends Model
 {
+    use HasFactory;
     protected $table = 'заказы';
     protected $fillable = ['пользователь_id', 'итоговая_цена', 'статус', 'адрес_доставки_id'];
     protected $casts = [

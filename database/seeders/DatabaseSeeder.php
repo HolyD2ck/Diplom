@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Address;
+use App\Models\Attribute;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        Product::factory(10)->create();
+        // Address::factory(10)->create();
+        $attributeFactory = new \Database\Factories\AttributeFactory;
+        $attributeFactory->АтрибутыВидеокарты();
+        // Product::factory(10)->create();
     }
 }
