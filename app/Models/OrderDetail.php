@@ -33,7 +33,8 @@ class OrderDetail extends Model
 
         // Метод вызывается перед сохранением детали заказа
         // Он пересчитывает цену детали заказа, умножая цену товара на количество
-        static::saving(function ($detail) {
+        static::creating(function ($detail) {
+            //  dd($detail);
             $product = Product::find($detail->товар_id);
             if ($product) {
                 $detail->цена = $product->цена * $detail->количество;

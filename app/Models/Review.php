@@ -33,9 +33,9 @@ class Review extends Model
     }
 
     // Метод для получения оценки
-    public function получитьОценку()
+    public function получитьСреднийРейтинг()
     {
-        return $this->рейтинг;
+        return $this->товар->рейтинг_товаров->средний_рейтинг;
     }
     //Метод вызывемый при создании или   обновлении отзыва
     public static function boot()

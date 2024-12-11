@@ -31,10 +31,26 @@ return new class extends Migration {
             $table->primary(['категория_id', 'атрибут_id']);
         });
 
+        // Таблица поставщиков
+        Schema::create('поставщики', function (Blueprint $table) {
+            $table->id();
+            $table->string('название_компании', 255);
+            $table->string('контактное_лицо', 255)->nullable();
+            $table->string('телефон', 50);
+            $table->string('электронная_почта', 255)->nullable();
+            $table->string('вебсайт', 255)->nullable();
+            $table->string('банковский_счет', 255)->nullable();
+            $table->string('инн', 20)->nullable();
+            $table->date('дата_начала_сотрудничества')->nullable();
+            $table->date('дата_окончания_сотрудничества')->nullable();
+            $table->timestamps();
+        });
+
         // Таблица товаров
         Schema::create('товары', function (Blueprint $table) {
             $table->id();
             $table->foreignId('категория_id')->nullable()->constrained('категории')->onDelete('set null');
+            $table->foreignId('поставщик_id')->nullable()->constrained('поставщики')->onDelete('set null');
             $table->string('название', 255);
             $table->text('описание')->nullable();
             $table->string('производитель', 100)->nullable();
@@ -42,6 +58,21 @@ return new class extends Migration {
             $table->decimal('цена', 12, 2)->nullable();
             $table->date('дата_выпуска')->nullable();
             $table->date('дата_поступления_в_продажу')->nullable();
+            $table->timestamps();
+        });
+
+        // Таблица сотрудников
+        Schema::create('сотрудники', function (Blueprint $table) {
+            $table->id();
+            $table->string('имя', 255);
+            $table->string('фамилия', 255);
+            $table->string('должность', 255);
+            $table->string('электронная_почта', 255)->unique();
+            $table->string('телефон', 50);
+            $table->date('дата_рождения');
+            $table->date('дата_найма');
+            $table->decimal('зарплата', 10, 2);
+            $table->string('адрес', 500)->nullable();
             $table->timestamps();
         });
 
@@ -66,11 +97,15 @@ return new class extends Migration {
         // Таблица адресов
         Schema::create('адреса', function (Blueprint $table) {
             $table->id();
+            $table->string('название_пункта', 255);
             $table->string('улица', 255);
             $table->string('город', 255);
             $table->string('область', 255);
             $table->string('почтовый_индекс', 20);
             $table->string('страна', 255);
+            $table->string('часы_работы', 255)->nullable();
+            $table->string('телефон', 50)->nullable();
+            $table->string('координаты', 255)->nullable();
             $table->timestamps();
         });
 
@@ -126,5 +161,7 @@ return new class extends Migration {
         Schema::dropIfExists('категория_атрибуты');
         Schema::dropIfExists('атрибуты');
         Schema::dropIfExists('категории');
+        Schema::dropIfExists('поставщики');
+        Schema::dropIfExists('сотрудники');
     }
 };

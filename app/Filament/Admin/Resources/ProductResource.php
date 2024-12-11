@@ -12,6 +12,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\HtmlString;
+
 use Symfony\Component\Translation\Loader\FileLoader;
 
 class ProductResource extends Resource
@@ -26,20 +29,28 @@ class ProductResource extends Resource
             ->schema([
                 Select::make('категория_id')
                     ->label('Категория')
-                    ->options(Category::all()->pluck('название', 'id'))
+                    ->relationship('категория', 'название')
                     ->required()
                     ->searchable()
                     ->reactive(),
-                Repeater::make('атрибуты')
+                Repeater::make('значенияАтрибутов')
                     ->label('Атрибуты')
                     ->maxItems(1)
                     ->schema(function ($get) {
+                        $productId = $get('id');
                         $categoryId = $get('категория_id');
                         $attributes = Category::find($categoryId)?->аттрибуты;
 
-                        return $attributes?->map(function ($attribute) {
-                            return TextInput::make($attribute->id)
+                        return $attributes?->map(function ($attribute) use ($productId) {
+                            // Получаем существующее значение для текущего атрибута и товара
+                            $value = AttributeValue::where('товар_id', $productId)
+                                ->where('атрибут_id', $attribute->id)
+                                ->first()?->значение;
+
+                            return TextInput::make('значения.' . $attribute->id)
                                 ->label($attribute->название)
+                                ->default($value)
+                                ->placeholder('Введите значение для ' . $attribute->название)
                                 ->required();
                         })->toArray() ?? [];
                     })
@@ -47,18 +58,22 @@ class ProductResource extends Resource
                 TextInput::make('название')->maxLength(100),
                 Textarea::make('описание')->columnSpanFull(),
                 TextInput::make('производитель')->maxLength(100),
+                Select::make('поставщик_id')->label('Поставщик')->required()->relationship('поставщик', 'название_компании'),
                 TextInput::make('цена')->numeric()->default(0)->inputMode('decimal')->required()->minValue(0),
                 TextInput::make('скидка')->numeric()->default(0)->inputMode('numeric')->minValue(0)->maxValue(100),
                 DatePicker::make('дата_выпуска'),
                 DatePicker::make('дата_поступления_в_продажу'),
-                FileUpload::make('основное_фото')->image()->required()->disk('public')->label('Основное фото')
+                FileUpload::make('основное_фото')
+                    ->image()
+                    ->disk('public')
+                    ->label('Основное фото')
                     ->directory(function ($get) {
                         $name = $get('название');
                         return 'photos/products/' . $name;
                     }),
                 FileUpload::make('фотографии')
                     ->image()
-                    ->required()
+
                     ->multiple()
                     ->disk('public')
                     ->label('Вторичные фотографии')
@@ -83,6 +98,10 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('производитель')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('поставщик.название_компании')
+                    ->searchable()
+                    ->toggleable(),
+
                 Tables\Columns\TextColumn::make('цена')
                     ->numeric()
                     ->default(0)
@@ -100,7 +119,7 @@ class ProductResource extends Resource
                     ->toggleable()
                     ->limit(20),
 
-                Tables\Columns\TextColumn::make('средняяОценка.рейтинг')
+                Tables\Columns\TextColumn::make('среднийРейтинг')
                     ->label('Средняя оценка')
                     ->sortable()
                     ->toggleable(),

@@ -20,6 +20,7 @@ class Product extends Model
         'дата_выпуска',
         'дата_поступления_в_продажу',
         'категория_id',
+        'поставщик_id',
     ];
 
     protected $casts = [
@@ -33,6 +34,12 @@ class Product extends Model
     public function категория()
     {
         return $this->belongsTo(Category::class, 'категория_id');
+    }
+
+    // Связь с поставщиком (один продукт принадлежит одному поставщику)
+    public function поставщик()
+    {
+        return $this->belongsTo(Supplier::class, 'поставщик_id');
     }
 
     // Связь с значениями атрибутов (множество атрибутов для каждого товара)
@@ -58,10 +65,10 @@ class Product extends Model
     {
         return $this->hasMany(Review::class, 'товар_id');
     }
-
-    // Метод для получения средней оценки товара
-    public function средняяОценка()
+    public function getСреднийРейтингAttribute()
     {
-        return $this->hasOne(Review::class, 'товар_id');
+        $среднийРейтинг = $this->отзывы()->avg('рейтинг') ?? 0;
+        return round($среднийРейтинг, 2);
     }
+
 }

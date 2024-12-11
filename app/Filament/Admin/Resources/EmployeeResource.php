@@ -2,9 +2,9 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\AddressResource\Pages;
-use App\Filament\Admin\Resources\AddressResource\RelationManagers;
-use App\Models\Address;
+use App\Filament\Admin\Resources\EmployeeResource\Pages;
+use App\Filament\Admin\Resources\EmployeeResource\RelationManagers;
+use App\Models\Employee;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AddressResource extends Resource
+class EmployeeResource extends Resource
 {
-    protected static ?string $model = Address::class;
+    protected static ?string $model = Employee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,33 +23,30 @@ class AddressResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('название_пункта')
-                    ->required()
-                    ->label('Название пункта выдачи')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('улица')
+                Forms\Components\TextInput::make('имя')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('город')
+                Forms\Components\TextInput::make('фамилия')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('область')
+                Forms\Components\TextInput::make('должность')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('почтовый_индекс')
-                    ->required()
-                    ->maxLength(20),
-                Forms\Components\TextInput::make('страна')
+                Forms\Components\TextInput::make('электронная_почта')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('часы_работы')
-                    ->required()
-                    ->label('Часы работы'),
                 Forms\Components\TextInput::make('телефон')
+                    ->required()
+                    ->maxLength(50),
+                Forms\Components\DatePicker::make('дата_рождения')
                     ->required(),
-                Forms\Components\TextInput::make('координаты')
+                Forms\Components\DatePicker::make('дата_найма')
                     ->required(),
-
+                Forms\Components\TextInput::make('зарплата')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('адрес')
+                    ->maxLength(500),
             ]);
     }
 
@@ -57,23 +54,26 @@ class AddressResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('название_пункта')
+                Tables\Columns\TextColumn::make('имя')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('улица')
+                Tables\Columns\TextColumn::make('фамилия')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('город')
+                Tables\Columns\TextColumn::make('должность')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('область')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('почтовый_индекс')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('страна')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('часы_работы')
+                Tables\Columns\TextColumn::make('электронная_почта')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('телефон')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('координаты')
+                Tables\Columns\TextColumn::make('дата_рождения')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('дата_найма')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('зарплата')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('адрес')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -107,9 +107,9 @@ class AddressResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAddresses::route('/'),
-            'create' => Pages\CreateAddress::route('/create'),
-            'edit' => Pages\EditAddress::route('/{record}/edit'),
+            'index' => Pages\ListEmployees::route('/'),
+            'create' => Pages\CreateEmployee::route('/create'),
+            'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
 }

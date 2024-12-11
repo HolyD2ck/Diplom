@@ -17,16 +17,18 @@ class CreateProduct extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $attributes = $this->data['атрибуты'];
-        $lastProductId = Product::max('id');
-        $path = $this->data['фотографии'];
-        //dd($this->data['основное_фото']);
-        foreach ($attributes as $key => $attribute) {
 
-            foreach ($attribute as $attributeId => $value) {
+        $attributes = $this->data['значенияАтрибутов'];
+
+        $lastProductId = Product::max('id');
+
+        $path = $this->data['фотографии'];
+
+        foreach ($attributes as $attributeId => $data) {
+            foreach ($data['значения'] as $key => $value) {
                 DB::table('значения_атрибутов')->insert([
                     'товар_id' => $lastProductId,
-                    'атрибут_id' => $attributeId,
+                    'атрибут_id' => $key,
                     'значение' => $value,
                 ]);
             }

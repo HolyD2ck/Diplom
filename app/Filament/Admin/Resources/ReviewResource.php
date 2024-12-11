@@ -23,12 +23,14 @@ class ReviewResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('товар_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('пользователь_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('товар_id')
+                    ->label('Товар')
+                    ->relationship('товар', 'название')
+                    ->required(),
+                Forms\Components\Select::make('пользователь_id')
+                    ->label('Пользователь')
+                    ->relationship('пользователь', 'name')
+                    ->required(),
                 Forms\Components\Textarea::make('отзыв')
                     ->required()
                     ->columnSpanFull(),
