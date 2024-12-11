@@ -42,13 +42,4 @@ class Order extends Model
         $this->итоговая_цена = $this->деталиЗаказа->sum('цена');
         $this->saveQuietly();
     }
-    // Метод вызывемый при создании, обновлении или удалении детали заказа
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saved(function ($order) {
-            $order->пересчитатьИтоговуюЦену();
-        });
-    }
 }

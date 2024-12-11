@@ -26,14 +26,33 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Product::class, 'товар_id');
     }
+    // Метод вызывемый при создании, обновлении или удалении детали заказа
     protected static function boot()
     {
         parent::boot();
 
+        // Метод вызывается перед сохранением детали заказа
+        // Он пересчитывает цену детали заказа, умножая цену товара на количество
         static::saving(function ($detail) {
             $product = Product::find($detail->товар_id);
             if ($product) {
                 $detail->цена = $product->цена * $detail->количество;
+            }
+        });
+
+        // Метод вызывается после сохранения детали заказа
+        // Он вызывает пересчет итоговой цены заказа
+        static::saved(function ($detail) {
+            if ($detail->заказ) {
+                $detail->заказ->пересчитатьИтоговуюЦену();
+            }
+        });
+
+        // Метод вызывается после удаления детали заказа
+        // Он вызывает пересчет итоговой цены заказа
+        static::deleted(function ($detail) {
+            if ($detail->заказ) {
+                $detail->заказ->пересчитатьИтоговуюЦену();
             }
         });
     }

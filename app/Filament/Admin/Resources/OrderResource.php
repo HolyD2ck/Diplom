@@ -41,6 +41,10 @@ class OrderResource extends Resource
                             ->required()
                             ->numeric()
                             ->minValue(1),
+                        // Forms\Components\TextInput::make('итоговая_цена')
+                        //     ->hidden()
+                        //     ->numeric()
+                        //     ->default(100),
                     ])
                     ->createItemButtonLabel('Добавить товар')
                     ->required(),
