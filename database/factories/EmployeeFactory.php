@@ -17,7 +17,15 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'имя' => $this->faker->firstName(),
+            'фамилия' => $this->faker->lastName(),
+            'должность' => $this->faker->jobTitle(),
+            'электронная_почта' => $this->faker->unique()->safeEmail(),
+            'телефон' => $this->faker->phoneNumber(),
+            'дата_рождения' => $this->faker->dateTimeBetween('-60 years', '-20 years')->format('Y-m-d'),
+            'дата_найма' => $this->faker->dateTimeBetween('-10 years', 'now')->format('Y-m-d'),
+            'зарплата' => $this->faker->randomFloat(2, 30000, 200000), // зарплата от 30,000 до 200,000
+            'адрес' => $this->faker->address(),
         ];
     }
 }

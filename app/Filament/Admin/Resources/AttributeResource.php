@@ -29,7 +29,6 @@ class AttributeResource extends Resource
                     ->label('Категории')
                     ->relationship('категории', 'название')
                     ->required(),
-                //s
             ]);
     }
 
