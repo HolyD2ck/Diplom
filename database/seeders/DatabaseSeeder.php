@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\Attribute;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -93,6 +94,8 @@ class DatabaseSeeder extends Seeder
         if (Product::count() < 300) {
             Product::factory(1)->create();
         }
+        //Создание фотографий
+        $photoFactory = new \Database\Factories\PhotoFactory;
 
     }
 }
