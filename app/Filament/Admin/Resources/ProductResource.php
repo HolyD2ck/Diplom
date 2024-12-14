@@ -119,7 +119,7 @@ class ProductResource extends Resource
                     ->toggleable()
                     ->limit(20),
 
-                Tables\Columns\TextColumn::make('среднийРейтинг')
+                Tables\Columns\TextColumn::make('среднийРейтинг.средний_рейтинг')
                     ->label('Средняя оценка')
                     ->sortable()
                     ->toggleable(),

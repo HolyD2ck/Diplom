@@ -65,10 +65,9 @@ class Product extends Model
     {
         return $this->hasMany(Review::class, 'товар_id');
     }
-    public function getСреднийРейтингAttribute()
+    public function среднийРейтинг()
     {
-        $среднийРейтинг = $this->отзывы()->avg('рейтинг') ?? 0;
-        return round($среднийРейтинг, 2);
+        return $this->hasMany(ProductRaiting::class, 'товар_id');
     }
 
 }

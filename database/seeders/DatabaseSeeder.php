@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\Attribute;
@@ -92,13 +93,19 @@ class DatabaseSeeder extends Seeder
         }
         //Создание товаров
         if (Product::count() < 300) {
-            $numProducts = 1;
+            $numProducts = 300;
 
             for ($i = 0; $i < $numProducts; $i++) {
                 $photoFactory = new \Database\Factories\PhotoFactory;
                 $product = Product::factory()->create();
                 $photoFactory->createPhotos($product);
+                $attributeFactory->ВнесениеАтрибутов($product);
             }
+        }
+        //Создание отзывов
+        $reviewFactory = new \Database\Factories\ReviewFactory;
+        if (Review::count() < 5000) {
+            $reviewFactory->созданиеОтзывов();
         }
     }
 }
