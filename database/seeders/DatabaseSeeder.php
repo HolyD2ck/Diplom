@@ -92,10 +92,13 @@ class DatabaseSeeder extends Seeder
         }
         //Создание товаров
         if (Product::count() < 300) {
-            Product::factory(1)->create();
-        }
-        //Создание фотографий
-        $photoFactory = new \Database\Factories\PhotoFactory;
+            $numProducts = 1;
 
+            for ($i = 0; $i < $numProducts; $i++) {
+                $photoFactory = new \Database\Factories\PhotoFactory;
+                $product = Product::factory()->create();
+                $photoFactory->createPhotos($product);
+            }
+        }
     }
 }

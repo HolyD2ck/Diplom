@@ -28,39 +28,39 @@ class PhotoFactory extends Factory
     }
     public function createPhotos(Product $product)
     {
-        $mainPhotosPath = public_path('faker/main/' . $product->категория->название);
-        $otherPhotosPath = public_path('faker/other/' . $product->категория->название);
+        $categories = [
+            'Процессоры' => 'Processors',
+            'Видеокарты' => 'GraphicsCards',
+            'Материнские платы' => 'Motherboards',
+            'Оперативная память' => 'RAM',
+            'Корпуса' => 'Cases',
+            'Мониторы' => 'Monitors',
+            'Блоки питания' => 'PowerSupplies',
+            'SSD' => 'SSD',
+            'HDD' => 'HDD',
+        ];
+
+        $categoryName = $categories[$product->категория->название] ?? null;
+
+        $mainPhotosPath = storage_path("app/public/faker/main/{$categoryName}");
+        $otherPhotosPath = storage_path("app/public/faker/other/{$categoryName}");
 
         $mainPhotos = array_diff(scandir($mainPhotosPath), ['.', '..']);
         $otherPhotos = array_diff(scandir($otherPhotosPath), ['.', '..']);
 
         $mainPhotoFile = $mainPhotos[array_rand($mainPhotos)];
 
-        $additionalPhotosFiles = count($otherPhotos) > 3 ? array_rand(array_flip($otherPhotos), 3) : $otherPhotos;
-
-        $destinationPath = storage_path('app/public/photos/products/' . $product->название);
-
-        if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath, 0755, true);
-        }
-
-        $mainPhotoSource = $mainPhotosPath . '/' . $mainPhotoFile;
-        $mainPhotoDestination = $destinationPath . '/' . $mainPhotoFile;
-        File::copy($mainPhotoSource, $mainPhotoDestination);
+        $additionalPhotosFiles = array_slice($otherPhotos, 0, 3);
 
         Photo::create([
-            'путь' => 'photos/products/' . $product->название . '/' . $mainPhotoFile,
+            'путь' => "faker/main/{$categoryName}/{$mainPhotoFile}",
             'основное' => true,
             'товар_id' => $product->id,
         ]);
 
         foreach ($additionalPhotosFiles as $photoFile) {
-            $photoSource = $otherPhotosPath . '/' . $photoFile;
-            $photoDestination = $destinationPath . '/' . $photoFile;
-            File::copy($photoSource, $photoDestination);
-
             Photo::create([
-                'путь' => 'photos/products/' . $product->название . '/' . $photoFile,
+                'путь' => "faker/other/{$categoryName}/{$photoFile}",
                 'основное' => false,
                 'товар_id' => $product->id,
             ]);

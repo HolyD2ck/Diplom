@@ -70,4 +70,5 @@ class ProductFactory extends Factory
 
         return $randomName;
     }
+
 }

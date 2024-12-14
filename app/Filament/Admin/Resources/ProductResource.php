@@ -127,7 +127,8 @@ class ProductResource extends Resource
                 Tables\Columns\ImageColumn::make('основноеФото.путь')
                     ->label('Фото')
                     ->size(80)
-                    ->toggleable(),
+                    ->toggleable()
+                ,
 
                 Tables\Columns\TextColumn::make('дата_выпуска')
                     ->date()
