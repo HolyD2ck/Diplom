@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             Address::factory(10)->create();
         }
 
+        //Создание категорий
+        $categoryFactory = new \Database\Factories\CategoryFactory;
+        $categoryFactory->Категории();
+
         //Создание атрибутов
         $attributeFactory = new \Database\Factories\AttributeFactory;
 
@@ -88,8 +92,8 @@ class DatabaseSeeder extends Seeder
         }
 
         //Создание пользователей
-        if (User::count() < 10) {
-            User::factory(10)->create();
+        if (User::count() < 100) {
+            User::factory(100)->create();
         }
         //Создание товаров
         if (Product::count() < 300) {
@@ -104,8 +108,8 @@ class DatabaseSeeder extends Seeder
         }
         //Создание отзывов
         $reviewFactory = new \Database\Factories\ReviewFactory;
-        if (Review::count() < 5000) {
-            $reviewFactory->созданиеОтзывов();
-        }
+        //if (Review::count() < 5000) {
+        $reviewFactory->созданиеОтзывов();
+        // }
     }
 }

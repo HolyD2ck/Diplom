@@ -113,7 +113,7 @@ return new class extends Migration {
         Schema::create('заказы', function (Blueprint $table) {
             $table->id();
             $table->foreignId('пользователь_id')->constrained('users')->onDelete('cascade');
-            $table->decimal('итоговая_цена', 12, 2);
+            $table->decimal('итоговая_цена', 12, 2)->default(0);
             $table->enum('статус', ['Оплачено', 'В обработке', 'Доставлено', 'Отменено'])->default('Оплачено');
             $table->foreignId('адрес_доставки_id')->constrained('адреса')->onDelete('cascade');
             $table->timestamps();
