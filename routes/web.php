@@ -26,19 +26,8 @@ Route::view('/workers', 'shop/workers')
 Route::view('/partners', 'shop/partners')
     ->name('partners');
 
-//Маршруты для API
-Route::view('/cart', 'cart')
-    ->name('cart');
-Route::get('/products', [MainApiController::class, 'getAllInfoProduct']);
-Route::get('/product/{id}', [MainApiController::class, 'getReviewsForProduct']);
+Route::view('/carts', 'shop/carts')
+    ->name('carts');
 
-Route::get('/test', function () {
-    return view('test');
-});
-Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])->group(function () {
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
-    Route::post('/cart/clear', [CartController::class, 'clearCart']);
-    Route::get('/cart', [CartController::class, 'getCart']);
-});
 require __DIR__ . '/auth.php';
+require __DIR__ . '/api.php';

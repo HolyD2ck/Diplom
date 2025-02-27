@@ -27,14 +27,14 @@ class DatabaseSeeder extends Seeder
 
         //Создание категорий
         $categoryFactory = new \Database\Factories\CategoryFactory;
+        $attributeFactory = new \Database\Factories\AttributeFactory;
         $categoryFactory->Категории();
 
         //Создание атрибутов
-        $attributeFactory = new \Database\Factories\AttributeFactory;
+
 
         //атрибуты видеокарт
         $videcard = Category::where('название', 'Видеокарты')->first();
-
         if ($videcard && !$videcard->аттрибуты()->exists()) {
             $attributeFactory->АтрибутыВидеокарты();
         }
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
         $attributeFactory->Связи();
 
         //Создание работников
-        if (Employee::count() < 40) {
+        if (Employee::count() < 10) {
             Employee::factory(10)->create();
         }
 
@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
             User::factory(100)->create();
         }
         //Создание товаров
-        if (Product::count() < 300) {
+        if (Product::count() > 300) {
             $numProducts = 300;
 
             for ($i = 0; $i < $numProducts; $i++) {
@@ -108,8 +108,8 @@ class DatabaseSeeder extends Seeder
         }
         //Создание отзывов
         $reviewFactory = new \Database\Factories\ReviewFactory;
-        //if (Review::count() < 5000) {
-        $reviewFactory->созданиеОтзывов();
-        // }
+        if (Review::count() < 5000) {
+            $reviewFactory->созданиеОтзывов();
+        }
     }
 }

@@ -42,8 +42,8 @@ class PhotoFactory extends Factory
 
         $categoryName = $categories[$product->категория->название] ?? null;
 
-        $mainPhotosPath = storage_path("app/public/faker/main/{$categoryName}");
-        $otherPhotosPath = storage_path("app/public/faker/other/{$categoryName}");
+        $mainPhotosPath = public_path("faker/main/{$categoryName}");
+        $otherPhotosPath = public_path("faker/other/{$categoryName}");
 
         $mainPhotos = array_diff(scandir($mainPhotosPath), ['.', '..']);
         $otherPhotos = array_diff(scandir($otherPhotosPath), ['.', '..']);
@@ -66,5 +66,4 @@ class PhotoFactory extends Factory
             ]);
         }
     }
-
 }

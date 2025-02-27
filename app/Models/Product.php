@@ -67,7 +67,7 @@ class Product extends Model
     }
     public function среднийРейтинг()
     {
-        return $this->hasMany(ProductRaiting::class, 'товар_id');
+        return $this->hasOne(ProductRaiting::class, 'товар_id');
     }
 
 }

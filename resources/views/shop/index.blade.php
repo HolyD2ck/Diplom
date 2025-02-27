@@ -1,2 +1,6 @@
-<livewire:shop-index />
-<livewire:footer />
+@extends('layouts.app')
+
+@section('content')
+    <livewire:shop-index />
+    <livewire:footer />
+@endsection

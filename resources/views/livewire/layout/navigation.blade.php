@@ -11,10 +11,10 @@ new class extends Component {
     }
 }; ?>
 
+
 <nav x-data="{ open: false }"
     class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-md fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
             <div class="flex-shrink-0">
@@ -84,7 +84,7 @@ new class extends Component {
                 </a>
 
                 <!-- Корзина -->
-                <a href="#"
+                <a href="{{ route('carts') }}"
                     class="flex items-center text-sm text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 transition duration-200 ease-in-out">
                     <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -163,23 +163,23 @@ new class extends Component {
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 Каталог
             </a>
-            <a href="#"
+            <a href="{{ route('contacts') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 Контакты
             </a>
-            <a href="#"
+            <a href="{{ route('about') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 О нас
             </a>
-            <a href="#"
+            <a href="{{ route('workers') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 Наши работники
             </a>
-            <a href="#"
+            <a href="{{ route('partners') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 Наши партнеры
             </a>
-            <a href="#"
+            <a href="{{ route('carts') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 Корзина
             </a>

@@ -65,22 +65,17 @@ class ProductResource extends Resource
                 DatePicker::make('дата_поступления_в_продажу'),
                 FileUpload::make('основное_фото')
                     ->image()
-                    ->disk('public')
+                    ->disk('public_direct')
                     ->label('Основное фото')
-                    ->directory(function ($get) {
-                        $name = $get('название');
-                        return 'photos/products/' . $name;
-                    }),
+                    ->directory(fn($get) => $get('название')),
+
                 FileUpload::make('фотографии')
                     ->image()
-
                     ->multiple()
-                    ->disk('public')
+                    ->disk('public_direct')
                     ->label('Вторичные фотографии')
-                    ->directory(function ($get) {
-                        $name = $get('название');
-                        return 'photos/products/' . $name;
-                    })
+                    ->directory(fn($get) => $get('название')),
+
             ]);
     }
     public static function table(Table $table): Table
@@ -128,6 +123,7 @@ class ProductResource extends Resource
                     ->label('Фото')
                     ->size(80)
                     ->toggleable()
+                    ->getStateUsing(fn($record) => asset($record->основноеФото->путь))
                 ,
 
                 Tables\Columns\TextColumn::make('дата_выпуска')

@@ -2,49 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Supplier;
-use App\Models\User;
 use App\Models\Product;
-use App\Models\Review;
-use App\Models\Address;
-use App\Models\Category;
-use App\Models\Attribute;
+use App\Jobs\GetRandomProductsJob;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
 
 class MainApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function getAllInfoProduct()
+    public function getRandomProducts()
     {
-        $products = Product::with([
-            'категория',
-            'поставщик',
-            'значенияАтрибутов.атрибут',
-            'фотографии',
-            'основноеФото',
-            'среднийРейтинг',
+        $products = Cache::get('random_products', []);
 
-        ])->get();
+        if (empty($products)) {
+            dispatch(new GetRandomProductsJob());
+        }
 
         return response()->json($products);
     }
-    public function getReviewsForProduct($id)
-    {
-        $product = Product::where('id', $id)
-            ->with('отзывы.пользователь')
-            ->first();
-
-        if (!$product) {
-            return response()->json(['error' => 'Товар не найден'], 404);
-        }
-
-        return response()->json($product);
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
 }
