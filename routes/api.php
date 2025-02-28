@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainApiController;
 use App\Http\Controllers\CartController;
 //Маршруты для API
-Route::get('/products', [MainApiController::class, 'getAllInfoProduct']);
+Route::get('/testim', [MainApiController::class, 'test'])->name('test');
 Route::get('/random-products', [MainApiController::class, 'getRandomProducts'])->name('api.random-products');
 Route::get('/product/{id}', [MainApiController::class, 'getReviewsForProduct']);
 Route::view('/cart', 'shop/cart')

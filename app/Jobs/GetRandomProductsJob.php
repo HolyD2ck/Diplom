@@ -16,18 +16,6 @@ class GetRandomProductsJob implements ShouldQueue
 
     public function handle()
     {
-        try {
-            $products = Product::select('id', 'название', 'цена', 'скидка')
-                ->with(['основноеФото', 'среднийРейтинг'])
-                ->inRandomOrder()
-                ->take(10)
-                ->get();
 
-            Cache::put('random_products', $products, 60);
-
-            Log::info('Кэш случайных товаров обновлён.');
-        } catch (\Exception $e) {
-            Log::error('Ошибка при обновлении случайных товаров: ' . $e->getMessage());
-        }
     }
 }
