@@ -8,6 +8,7 @@ class AttributeValue extends Model
 {
     protected $table = 'значения_атрибутов';
     protected $fillable = ['товар_id', 'атрибут_id', 'значение'];
+    protected $visible = ['значение', 'атрибут'];
 
     // Связь с товаром (один к одному)
     public function товар()

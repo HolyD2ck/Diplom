@@ -10,30 +10,39 @@ class CartController extends Controller
     public function getCart()
     {
         $cart = session()->get('cart', []);
-        return response()->json(['cart' => $cart], 200);
+        return view('shop.cart', ['cart' => $cart]);
     }
+
     public function addToCart(Request $request)
     {
         $product = Product::find($request->product_id);
 
-        if (!$product) {
-            return response()->json(['error' => 'Товар не найден'], 404);
-        }
-
         $cart = session()->get('cart', []);
+        $quantity = $request->input('quantity', 1);
 
-        if (isset($cart[$request->product_id])) {
-            $cart[$request->product_id]['количество'] += $request->quantity ?? 1;
+        if (isset($cart[$product->id])) {
+            $cart[$product->id]['количество'] += $quantity;
         } else {
-            $cart[$request->product_id] = [
+            $cart[$product->id] = [
                 'товар_id' => $product->id,
                 'название' => $product->название,
                 'цена' => $product->цена,
-                'скидка' => $product->скидка,
-                'количество' => $request->quantity ?? 1,
+                'скидка' => $product->скидка ?? 0,
+                'количество' => $quantity,
+                'фото' => $product->основноеФото->путь ?? 'images/default.jpg',
             ];
         }
+
         session()->put('cart', $cart);
-        return response()->json(['success' => 'Товар добавлен в корзину', 'cart' => $cart], 200);
+        session()->save();
+
+        return redirect()->back()->with('success', 'Товар добавлен в корзину!');
     }
+    public function clearCart()
+    {
+        session()->forget('cart');
+        return redirect()->back()->with('success', 'Корзина очищена!');
+    }
+
+
 }

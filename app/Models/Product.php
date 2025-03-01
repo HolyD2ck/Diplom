@@ -45,7 +45,7 @@ class Product extends Model
     // Связь с значениями атрибутов (множество атрибутов для каждого товара)
     public function значенияАтрибутов()
     {
-        return $this->hasMany(AttributeValue::class, 'товар_id');
+        return $this->hasMany(AttributeValue::class, 'товар_id')->with('атрибут:id,название');
     }
 
     // Связь с фотографиями (множество фотографий для каждого товара)

@@ -260,7 +260,7 @@ class AttributeFactory extends Factory
         switch ($attribute->название) {
             case 'Назначение':
                 return 'Игровая';
-            case 'Объем видеопамяти':
+            case 'Обьем видеопамяти':
                 return rand(2, 16) . ' GB';
             case 'Разрядность шины':
                 return rand(128, 512) . ' bit';

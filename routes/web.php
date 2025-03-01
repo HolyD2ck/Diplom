@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MainApiController;
-
+use App\Livewire\CategoryProducts;
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -26,8 +26,14 @@ Route::view('/workers', 'shop/workers')
 Route::view('/partners', 'shop/partners')
     ->name('partners');
 
-Route::view('/carts', 'shop/carts')
-    ->name('carts');
+Route::get('/category/{categoryId}', function ($categoryId) {
+    return view('shop.category', ['categoryId' => $categoryId]);
+})->name('category');
+
+//Маршруты корзины
+Route::get('/cart', [CartController::class, 'getCart'])->name('cart');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/api.php';
