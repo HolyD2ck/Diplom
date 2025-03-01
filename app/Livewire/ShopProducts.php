@@ -22,7 +22,7 @@ class ShopProducts extends Component
 
     public function loadProducts()
     {
-        $response = Http::get('http://127.0.0.1:8000//shop-products/' . $this->categoryId);
+        $response = Http::get('http://127.0.0.1:8000/shop-products/' . $this->categoryId);
         $this->products = $response->successful() ? $response->json() : [];
     }
 
