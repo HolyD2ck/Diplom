@@ -63,7 +63,7 @@ class Product extends Model
     // Связь с отзывами
     public function отзывы()
     {
-        return $this->hasMany(Review::class, 'товар_id');
+        return $this->hasMany(Review::class, 'товар_id')->with('пользователь:id,name');
     }
     public function среднийРейтинг()
     {

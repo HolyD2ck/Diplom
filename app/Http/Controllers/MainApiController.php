@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MainApiController extends Controller
 {
@@ -46,12 +48,58 @@ class MainApiController extends Controller
 
         return response()->json($products);
     }
-    public function getShopProducts($categoryId)
+    public function getShopProducts(Request $request, $categoryId)
     {
-        $products = Product::where('категория_id', $categoryId)
-            ->with(['основноеФото', 'среднийРейтинг', 'фотографии', 'значенияАтрибутов'])
-            ->paginate(6);
+        $query = Product::where('категория_id', $categoryId)
+            ->with(['основноеФото', 'среднийРейтинг', 'фотографии', 'значенияАтрибутов']);
 
+        // Фильтр по цене с учетом скидки
+        if ($request->has('filters.price_min') && $request->has('filters.price_max')) {
+            $query->whereBetween(DB::raw('цена * (1 - скидка / 100)'), [
+                $request->input('filters.price_min'),
+                $request->input('filters.price_max')
+            ]);
+        } else {
+            if ($request->has('filters.price_min')) {
+                $query->whereRaw('цена * (1 - скидка / 100) >= ?', [$request->input('filters.price_min')]);
+            }
+            if ($request->has('filters.price_max')) {
+                $query->whereRaw('цена * (1 - скидка / 100) <= ?', [$request->input('filters.price_max')]);
+            }
+        }
+
+        // Фильтр по скидке
+        if ($request->has('filters.discount_min')) {
+            $query->where('скидка', '>=', $request->input('filters.discount_min'));
+        }
+        if ($request->has('filters.discount_max')) {
+            $query->where('скидка', '<=', $request->input('filters.discount_max'));
+        }
+
+        // Фильтр по производителям (множественный выбор)
+        if ($request->has('filters.manufacturers')) {
+            $query->whereIn('производитель', $request->input('filters.manufacturers'));
+        }
+
+        // Сортировка
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'price_asc':
+                    $query->orderByRaw('цена * (1 - скидка / 100) ASC');
+                    break;
+                case 'price_desc':
+                    $query->orderByRaw('цена * (1 - скидка / 100) DESC');
+                    break;
+                case 'rating_desc':
+                    $query->withAvg('среднийРейтинг as средний_рейтинг', 'средний_рейтинг')->orderBy('средний_рейтинг', 'desc');
+                    break;
+                case 'newest':
+                    $query->orderBy('дата_поступления_в_продажу', 'desc');
+                    break;
+            }
+        }
+
+        $products = $query->paginate(6);
         $products->each(function ($product) {
             $product->makeHidden(['created_at', 'updated_at']);
             optional($product->основноеФото)->makeHidden(['created_at', 'updated_at']);
@@ -71,5 +119,38 @@ class MainApiController extends Controller
         });
 
         return response()->json($products);
+    }
+    public function getAllAboutProduct($id)
+    {
+        $product = Product::with([
+            'среднийРейтинг',
+            'фотографии',
+            'значенияАтрибутов',
+            'поставщик',
+            'отзывы' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            },
+        ])->find($id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Товар не найден!'], 404);
+        }
+
+        optional($product->среднийРейтинг)->makeHidden(['created_at', 'updated_at']);
+        optional($product->поставщик)->makeHidden(['created_at', 'updated_at']);
+
+        optional($product->фотографии)->each(function ($фото) {
+            $фото->makeHidden(['created_at', 'updated_at']);
+        });
+
+        optional($product->значенияАтрибутов)->each(function ($значение) {
+            $значение->makeHidden(['created_at', 'updated_at']);
+        });
+
+        optional($product->отзывы)->each(function ($отзыв) {
+            $отзыв->makeHidden('updated_at');
+        });
+
+        return response()->json($product);
     }
 }

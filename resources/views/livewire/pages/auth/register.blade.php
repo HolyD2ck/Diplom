@@ -30,8 +30,7 @@ new #[Layout('layouts.guest')] class extends Component {
         event(new Registered(($user = User::create($validated))));
 
         Auth::login($user);
-        // $this->redirect(route('dashboard', absolute: false), navigate: false);
-        $this->redirect(back(), navigate: false);
+        $this->redirect(route('dashboard', absolute: false), navigate: false);
     }
 }; ?>
 

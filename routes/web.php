@@ -30,6 +30,10 @@ Route::get('/category/{categoryId}', function ($categoryId) {
     return view('shop.category', ['categoryId' => $categoryId]);
 })->name('category');
 
+Route::get('/show/{productId}', function ($productId) {
+    return view('shop.show', ['productId' => $productId]);
+})->name('show');
+
 //Маршруты корзины
 Route::get('/cart', [CartController::class, 'getCart'])->name('cart');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');

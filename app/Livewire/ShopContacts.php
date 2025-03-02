@@ -24,7 +24,8 @@ class ShopContacts extends Component
         ]);
 
         $this->reviews->prepend($review);
-        $this->reset('имя_клиента', 'отзыв', 'email'); // Сброс полей формы
+        $this->reviews->save();
+        $this->reset('имя_клиента', 'отзыв', 'email');
     }
 
     public function render()

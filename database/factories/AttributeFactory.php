@@ -40,7 +40,7 @@ class AttributeFactory extends Factory
 
         $attributes = [
             'Назначение',
-            'Обьем видеопамяти',
+            'Объем видеопамяти',
             'Разрядность шины',
             'Тип памяти',
             'Интерфейс подключения',
@@ -59,7 +59,7 @@ class AttributeFactory extends Factory
             'Сокет',
             'Количество ядер',
             'Число потоков',
-            'Обьем кэша',
+            'Объем кэша',
             'Базовая частота',
             'Максимальная частота',
             'Тепловыделение',
@@ -90,7 +90,7 @@ class AttributeFactory extends Factory
         $categoryId = Category::where('название', '=', 'Оперативная память')->value('id');
         $attributes = [
             'Форм-фактор памяти',
-            'Обьем памяти',
+            'Объем памяти',
             'Тактовая частота',
             'Ранговость',
             'CAS Latency',
@@ -140,7 +140,7 @@ class AttributeFactory extends Factory
     {
         $categoryId = Category::where('название', '=', 'SSD')->value('id');
         $attributes = [
-            'Обьем накопителя',
+            'Объем накопителя',
             'NVMe',
             'Разьем подключения',
             'Максимальная скорость последовательного чтения',
@@ -198,7 +198,7 @@ class AttributeFactory extends Factory
             'Ширина' => ['Материнские платы', 'Корпуса', 'Блоки питания', 'Мониторы', 'Видеокарты'],
             'Подсветка' => ['Корпуса', 'Мониторы', 'Оперативная память', 'Видеокарты'],
             'Вес' => ['Корпуса', 'Мониторы', 'Блоки питания', 'Видеокарты'],
-            'Обьем накопителя' => ['SSD', 'HDD'],
+            'Объем накопителя' => ['SSD', 'HDD'],
         ];
         foreach ($attributeCategories as $attributeName => $categories) {
             $attribute = Attribute::firstOrCreate(['название' => $attributeName]);
@@ -260,7 +260,7 @@ class AttributeFactory extends Factory
         switch ($attribute->название) {
             case 'Назначение':
                 return 'Игровая';
-            case 'Обьем видеопамяти':
+            case 'Объем видеопамяти':
                 return rand(2, 16) . ' GB';
             case 'Разрядность шины':
                 return rand(128, 512) . ' bit';
@@ -306,7 +306,7 @@ class AttributeFactory extends Factory
                 return rand(1, 16);
             case 'Число потоков':
                 return rand(1, 32);
-            case 'Обьем кэша':
+            case 'Объем кэша':
                 return rand(2, 64) . ' MB';
             case 'Базовая частота':
                 return rand(2, 4) . ' GHz';
