@@ -6,12 +6,14 @@ use App\Models\Product;
 use App\Models\Category;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ShopProducts extends Component
 {
     public $categoryId;
     public $category = null;
     public $products = [];
+    public $currentPage = 1;
     public $filters = [
         'manufacturers' => [],
         'price_min' => 0,
@@ -41,47 +43,41 @@ class ShopProducts extends Component
         $this->loadProducts();
     }
 
-    public function loadProducts($url = null)
+    public function loadProducts()
     {
+        $query = [
+            'page' => $this->currentPage,
+            'filters' => $this->filters,
+            'sort' => $this->sortBy,
+        ];
 
-        if ($url) {
-            $fullUrl = $url;
-        } else {
-            $query = [];
-
-            if (!empty($this->filters)) {
-                $query['filters'] = $this->filters;
-            }
-
-            if ($this->sortBy !== 'default') {
-                $query['sort'] = $this->sortBy;
-            }
-
-
-            $fullUrl = "http://halava7d.beget.tech/shop-products/{$this->categoryId}?" . http_build_query($query);
-        }
+        $fullUrl = "http://halava7d.beget.tech/shop-products/{$this->categoryId}?" . http_build_query($query);
 
         $response = Http::timeout(15)->get($fullUrl);
         $this->products = $response->json();
 
+        Log::info('Продукты Загружены:');
+
         $this->dispatch('refresh');
     }
 
-
     public function applyFilters()
     {
+        $this->currentPage = 1;
         $this->loadProducts();
     }
 
     public function updateSort($sort)
     {
         $this->sortBy = $sort;
+        $this->currentPage = 1;
         $this->loadProducts();
     }
 
-    public function goToPage($url)
+    public function goToPage($page)
     {
-        $this->loadProducts($url);
+        $this->currentPage = $page;
+        $this->loadProducts();
     }
 
     public function render()
@@ -90,6 +86,9 @@ class ShopProducts extends Component
             'category' => $this->category,
             'products' => $this->products,
             'manufacturers' => $this->manufacturers,
+            'filters' => $this->filters,
+            'sortBy' => $this->sortBy,
+            'currentPage' => $this->currentPage,
         ]);
     }
 }

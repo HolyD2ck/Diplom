@@ -8,9 +8,7 @@ use App\Livewire\CategoryProducts;
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
 // Маршруты для страниц
-
 Route::view('/', 'shop/index')
     ->name('dashboard');
 

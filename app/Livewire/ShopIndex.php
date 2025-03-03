@@ -32,8 +32,6 @@ class ShopIndex extends Component
             'search' => 'nullable|string|max:255',
         ];
     }
-
-
     public function loadPopularProducts()
     {
         $response = Http::get('http://halava7d.beget.tech/random-products');

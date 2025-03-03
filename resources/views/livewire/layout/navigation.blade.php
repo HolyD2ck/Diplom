@@ -11,7 +11,6 @@ new class extends Component {
     }
 }; ?>
 
-
 <nav x-data="{ open: false }"
     class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-md fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,9 +126,13 @@ new class extends Component {
                                     Перейти в панель администратора
                                 </a>
                             @endif
+                            <a href="/profile"
+                                class="block px-4 py-2 text-green-600 hover:bg-green-100 dark:hover:bg-green-700 rounded-md text-sm font-semibold">
+                                Ваш профиль
+                            </a>
                             <button wire:click="logout" class="w-full text-left">
                                 <x-dropdown-link
-                                    class="text-red-600 hover:text-red-800 font-semibold">{{ __('Выйти') }}</x-dropdown-link>
+                                    class="block px-4 py-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-700 rounded-md text-sm font-semibold">{{ __('Выйти') }}</x-dropdown-link>
                             </button>
                         </x-slot>
                     </x-dropdown>
@@ -233,3 +236,4 @@ new class extends Component {
         </div>
     </div>
 </nav>
+s

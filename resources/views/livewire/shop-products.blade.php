@@ -168,8 +168,7 @@
 
                                         <div class="flex flex-col ml-4">
                                             <div class="text-center mb-2">
-                                                🐷🐷🐷🐷
-                                            </div <!-- Кнопка "В корзину" -->
+                                            </div>
                                             <form action="{{ route('cart.add') }}" method="POST" class="mb-2">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product['id'] }}">
@@ -180,7 +179,7 @@
                                             </form>
                                             <!-- Кнопка "Подробнее" -->
                                             <a href="{{ route('show', ['productId' => $product['id']]) }}"
-                                                class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-gray-600 text-sm font-medium transition duration-200 w-full">
+                                                class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm font-medium transition duration-200 w-full">
                                                 Подробнее
                                             </a>
                                         </div>
@@ -189,25 +188,24 @@
                             </div>
 
                             <!-- Пагинация -->
-                            @if ($products['last_page'] > 1)
+                            @if ($products && isset($products['last_page']) && $products['last_page'] > 1)
                                 <div class="mt-6 flex justify-center space-x-2">
                                     <!-- В начало -->
                                     @if ($products['current_page'] > 1)
-                                        <button wire:click="goToPage('{{ $products['first_page_url'] }}')"
+                                        <button wire:click="goToPage(1)"
                                             class="px-3 py-1 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm">
                                             В начало
                                         </button>
                                     @endif
 
                                     <!-- Назад -->
-                                    @if ($products['prev_page_url'])
-                                        <button wire:click="goToPage('{{ $products['prev_page_url'] }}')"
+                                    @if ($products['current_page'] > 1)
+                                        <button wire:click="goToPage({{ $products['current_page'] - 1 }})"
                                             class="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
                                             Назад
                                         </button>
                                     @endif
 
-                                    <!-- Номера страниц -->
                                     @php
                                         $start = max(1, $products['current_page'] - 2);
                                         $end = min($products['last_page'], $products['current_page'] + 2);
@@ -218,10 +216,9 @@
                                     @endif
 
                                     @for ($page = $start; $page <= $end; $page++)
-                                        <button
-                                            wire:click="goToPage('{{ $products['path'] }}?page={{ $page }}')"
+                                        <button wire:click="goToPage({{ $page }})"
                                             class="px-3 py-1 rounded-lg text-sm 
-            {{ $products['current_page'] == $page ? 'bg-blue-800 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                {{ $products['current_page'] == $page ? 'bg-blue-800 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
                                             {{ $page }}
                                         </button>
                                     @endfor
@@ -231,8 +228,8 @@
                                     @endif
 
                                     <!-- Вперёд -->
-                                    @if ($products['next_page_url'])
-                                        <button wire:click="goToPage('{{ $products['next_page_url'] }}')"
+                                    @if ($products['current_page'] < $products['last_page'])
+                                        <button wire:click="goToPage({{ $products['current_page'] + 1 }})"
                                             class="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
                                             Вперёд
                                         </button>
@@ -240,7 +237,7 @@
 
                                     <!-- В конец -->
                                     @if ($products['current_page'] < $products['last_page'])
-                                        <button wire:click="goToPage('{{ $products['last_page_url'] }}')"
+                                        <button wire:click="goToPage({{ $products['last_page'] }})"
                                             class="px-3 py-1 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm">
                                             В конец
                                         </button>
@@ -253,7 +250,6 @@
             </div>
         </div>
     </div>
-
     <!-- Уведомления -->
     @if (session('success'))
         <div x-data="{ show: true }" x-init="setTimeout(() => { show = false }, 2500)" x-show="show"

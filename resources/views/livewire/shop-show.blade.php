@@ -251,55 +251,51 @@
             </div>
         </div>
     </div>
-</div>
-</div>
-
-<!-- Модальное окно -->
-@if ($isOpen)
-    <div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 class="text-xl font-semibold text-blue-900 mb-4">Оставить отзыв</h2>
-            <label class="block text-sm font-medium text-gray-700">Рейтинг</label>
-            <select wire:model="rating"
-                class="w-full p-2 border rounded mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="5">★★★★★</option>
-                <option value="4">★★★★☆</option>
-                <option value="3">★★★☆☆</option>
-                <option value="2">★★☆☆☆</option>
-                <option value="1">★☆☆☆☆</option>
-            </select>
-            <label class="block text-sm font-medium text-gray-700">Отзыв</label>
-            <textarea wire:model="reviewText"
-                class="w-full p-2 border rounded mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
-            <div class="flex justify-end gap-2">
-                <button wire:click="closeReviewModal"
-                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 text-sm font-medium transition duration-200">
-                    Отмена
-                </button>
-                <button wire:click="saveReview"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200">
-                    Сохранить
-                </button>
+    <!-- Модальное окно -->
+    @if ($isOpen)
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h2 class="text-xl font-semibold text-blue-900 mb-4">Оставить отзыв</h2>
+                <label class="block text-sm font-medium text-gray-700">Рейтинг</label>
+                <select wire:model="rating"
+                    class="w-full p-2 border rounded mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+                <label class="block text-sm font-medium text-gray-700">Отзыв</label>
+                <textarea wire:model="reviewText"
+                    class="w-full p-2 border rounded mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+                <div class="flex justify-end gap-2">
+                    <button wire:click="closeReviewModal"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 text-sm font-medium transition duration-200">
+                        Отмена
+                    </button>
+                    <button wire:click="saveReview"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200">
+                        Сохранить
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-@endif
-
-<!-- Уведомления -->
-@if (session('success'))
-    <div x-data="{ show: true }" x-init="setTimeout(() => { show = false }, 2500)" x-show="show"
-        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded-lg shadow-lg">
-        {{ session('success') }}
-    </div>
-@endif
-@if (session('error'))
-    <div x-data="{ show: true }" x-init="setTimeout(() => { show = false }, 2500)" x-show="show"
-        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded-lg shadow-lg">
-        {{ session('error') }}
-    </div>
-@endif
+    @endif
+    <!-- Уведомления -->
+    @if (session('success'))
+        <div x-data="{ show: true }" x-init="setTimeout(() => { show = false }, 2500)" x-show="show"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded-lg shadow-lg">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div x-data="{ show: true }" x-init="setTimeout(() => { show = false }, 2500)" x-show="show"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded-lg shadow-lg">
+            {{ session('error') }}
+        </div>
+    @endif
 </div>

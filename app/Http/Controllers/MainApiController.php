@@ -53,7 +53,6 @@ class MainApiController extends Controller
         $query = Product::where('категория_id', $categoryId)
             ->with(['основноеФото', 'среднийРейтинг', 'фотографии', 'значенияАтрибутов']);
 
-        // Фильтр по цене с учетом скидки
         if ($request->has('filters.price_min') && $request->has('filters.price_max')) {
             $query->whereBetween(DB::raw('цена * (1 - скидка / 100)'), [
                 $request->input('filters.price_min'),
@@ -68,7 +67,6 @@ class MainApiController extends Controller
             }
         }
 
-        // Фильтр по скидке
         if ($request->has('filters.discount_min')) {
             $query->where('скидка', '>=', $request->input('filters.discount_min'));
         }
@@ -76,12 +74,10 @@ class MainApiController extends Controller
             $query->where('скидка', '<=', $request->input('filters.discount_max'));
         }
 
-        // Фильтр по производителям (множественный выбор)
         if ($request->has('filters.manufacturers')) {
             $query->whereIn('производитель', $request->input('filters.manufacturers'));
         }
 
-        // Сортировка
         if ($request->has('sort')) {
             switch ($request->input('sort')) {
                 case 'price_asc':
