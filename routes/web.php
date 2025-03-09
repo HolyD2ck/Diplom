@@ -5,12 +5,13 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\MainApiController;
 use App\Livewire\CategoryProducts;
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
 // Маршруты для страниц
 Route::view('/', 'shop/index')
     ->name('dashboard');
+
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
 
 Route::view('/contacts', 'shop/contacts')
     ->name('contacts');

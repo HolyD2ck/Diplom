@@ -20,19 +20,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $categoryFactory = new \Database\Factories\CategoryFactory;
+        $attributeFactory = new \Database\Factories\AttributeFactory;
+
         //Создание адресов
         if (Address::count() < 10) {
             Address::factory(10)->create();
         }
 
         //Создание категорий
-        $categoryFactory = new \Database\Factories\CategoryFactory;
-        $attributeFactory = new \Database\Factories\AttributeFactory;
-        $categoryFactory->Категории();
+        if (Category::count() == 0) {
+            $categoryFactory->Категории();
+        }
 
         //Создание атрибутов
-
-
         //атрибуты видеокарт
         $videcard = Category::where('название', 'Видеокарты')->first();
         if ($videcard && !$videcard->аттрибуты()->exists()) {

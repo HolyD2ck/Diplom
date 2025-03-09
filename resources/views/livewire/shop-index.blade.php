@@ -48,7 +48,8 @@
                     <!-- Карточки категорий -->
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 11]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/video.jpg') }}" alt="Видеокарты"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Видеокарты</h3>
@@ -57,7 +58,8 @@
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 12]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/pro.jpg') }}" alt="Процессоры"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Процессоры</h3>
@@ -66,27 +68,28 @@
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 13]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/mama.jpg') }}" alt="Материнские платы"
                                     class="w-full h-40 object-cover rounded-t-lg">
-                                <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Материнские платы
-                                </h3>
+                                <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Материнские платы</h3>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 14]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/opera.jpg') }}" alt="Оперативная память"
                                     class="w-full h-40 object-cover rounded-t-lg">
-                                <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Оперативная память
-                                </h3>
+                                <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Оперативная память</h3>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 15]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/case.jpg') }}" alt="Корпуса"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Корпуса</h3>
@@ -95,7 +98,8 @@
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 16]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/pow.jpg') }}" alt="Блоки питания"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Блоки питания</h3>
@@ -104,7 +108,8 @@
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 17]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/ssd.jpg') }}" alt="SSD"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">SSD</h3>
@@ -113,7 +118,8 @@
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 18]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/hdd.jpg') }}" alt="HDD"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">HDD</h3>
@@ -122,7 +128,8 @@
                     </div>
                     <div class="swiper-slide">
                         <a href="{{ route('category', ['categoryId' => 19]) }}">
-                            <div class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/monic.jpg') }}" alt="Мониторы"
                                     class="w-full h-40 object-cover rounded-t-lg">
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800 text-center">Мониторы</h3>
@@ -140,13 +147,16 @@
                 <div class="swiper-wrapper">
                     @forelse ($popularProducts as $product)
                         <div class="swiper-slide">
-                            <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                     <img src="{{ asset($product['основноефото']['путь']) }}"
                                         class="w-full h-40 object-contain rounded-t-lg">
-                                </a <h3 class="mt-3 text-lg font-semibold text-gray-800">
-                                {{ $product['название'] ?? 'Без названия' }}</h3>
-                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px] ">
+                                </a>
+                                <h3 class="mt-3 text-lg font-semibold text-gray-800">
+                                    {{ $product['название'] ?? 'Без названия' }}
+                                </h3>
+                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px]">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
                                             ★
@@ -162,9 +172,10 @@
                                     @if ($product['скидка'] > 0)
                                         <span class="text-gray-500 line-through">{{ round($product['цена'], 2) }}
                                             ₽</span>
-                                        <span
-                                            class="text-blue-500 ml-2">{{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
-                                            ₽</span>
+                                        <span class="text-blue-500 ml-2">
+                                            {{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
+                                            ₽
+                                        </span>
                                         <span class="text-blue-500 ml-2">(-{{ $product['скидка'] }}%)</span>
                                     @else
                                         <span class="text-blue-700">{{ round($product['цена'], 2) }} ₽</span>
@@ -174,7 +185,7 @@
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                     <button type="submit"
-                                        class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200">
+                                        class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95">
                                         В корзину
                                     </button>
                                 </form>
@@ -195,14 +206,16 @@
                 <div class="swiper-wrapper">
                     @forelse ($discountProducts as $product)
                         <div class="swiper-slide">
-                            <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                     <img src="{{ asset($product['основноефото']['путь']) }}"
                                         class="w-full h-40 object-contain rounded-t-lg">
                                 </a>
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800">
-                                    {{ $product['название'] ?? 'Без названия' }}</h3>
-                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px] ">
+                                    {{ $product['название'] ?? 'Без названия' }}
+                                </h3>
+                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px]">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
                                             ★
@@ -218,9 +231,10 @@
                                     @if ($product['скидка'] > 0)
                                         <span class="text-gray-500 line-through">{{ round($product['цена'], 2) }}
                                             ₽</span>
-                                        <span
-                                            class="text-red-500 ml-2">{{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
-                                            ₽</span>
+                                        <span class="text-red-500 ml-2">
+                                            {{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
+                                            ₽
+                                        </span>
                                         <span class="text-red-500 ml-2">(-{{ $product['скидка'] }}%)</span>
                                     @else
                                         <span class="text-blue-700">{{ round($product['цена'], 2) }} ₽</span>
@@ -230,7 +244,7 @@
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                     <button type="submit"
-                                        class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200">
+                                        class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95">
                                         В корзину
                                     </button>
                                 </form>
@@ -250,13 +264,16 @@
                 <div class="swiper-wrapper">
                     @forelse ($bestProducts as $product)
                         <div class="swiper-slide">
-                            <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                            <div
+                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                     <img src="{{ asset($product['основноефото']['путь']) }}"
                                         class="w-full h-40 object-contain rounded-t-lg">
-                                </a <h3 class="mt-3 text-lg font-semibold text-gray-800">
-                                {{ $product['название'] ?? 'Без названия' }}</h3>
-                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px] ">
+                                </a>
+                                <h3 class="mt-3 text-lg font-semibold text-gray-800">
+                                    {{ $product['название'] ?? 'Без названия' }}
+                                </h3>
+                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px]">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
                                             ★
@@ -272,9 +289,10 @@
                                     @if ($product['скидка'] > 0)
                                         <span class="text-gray-500 line-through">{{ round($product['цена'], 2) }}
                                             ₽</span>
-                                        <span
-                                            class="text-green-500 ml-2">{{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
-                                            ₽</span>
+                                        <span class="text-green-500 ml-2">
+                                            {{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
+                                            ₽
+                                        </span>
                                         <span class="text-green-500 ml-2">(-{{ $product['скидка'] }}%)</span>
                                     @else
                                         <span class="text-blue-700">{{ round($product['цена'], 2) }} ₽</span>
@@ -284,7 +302,7 @@
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                     <button type="submit"
-                                        class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200">
+                                        class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95">
                                         В корзину
                                     </button>
                                 </form>

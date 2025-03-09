@@ -18,17 +18,4 @@ class Photo extends Model
     {
         return $this->belongsTo(Product::class, 'товар_id');
     }
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::saved(function ($model) {
-    //         if ($model->основное) {
-    //             static::where('товар_id', $model->товар_id)
-    //                 ->where('основное', true)
-    //                 ->where('id', '!=', $model->id)
-    //                 ->delete();
-    //         }
-    //     });
-    // }
 }

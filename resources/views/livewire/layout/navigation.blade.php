@@ -211,6 +211,10 @@ new class extends Component {
                                 Перейти в панель администратора
                             </a>
                         @endif
+                        <a href="/profile"
+                            class="block px-4 py-2 text-green-600 hover:bg-green-100 dark:hover:bg-green-700 rounded-md text-sm font-semibold">
+                            Ваш профиль
+                        </a>
                         <button wire:click="logout" class="w-full text-left">
                             <span
                                 class="block px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700 rounded-md text-sm font-semibold">
@@ -236,4 +240,3 @@ new class extends Component {
         </div>
     </div>
 </nav>
-s

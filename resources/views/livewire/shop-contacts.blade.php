@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <div class="bg-gray-100 min-h-screen pt-16"> <!-- Отступ для фиксированной шапки -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Заголовок -->
@@ -81,19 +79,17 @@
                 </div>
                 <div>
                     <form wire:submit.prevent="createReview" class="space-y-4">
-                        @csrf
                         <input type="text" wire:model="имя_клиента" placeholder="Ваше имя"
-                            class="w-full p-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="w-full p-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 @error('имя_клиента') border-red-500 @enderror">
                         <input type="email" wire:model="email" placeholder="Ваш email"
-                            class="w-full p-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="w-full p-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 @error('email') border-red-500 @enderror">
                         <textarea wire:model="отзыв" placeholder="Ваше сообщение" rows="3"
-                            class="w-full p-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            class="w-full p-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 @error('отзыв') border-red-500 @enderror"></textarea>
                         <button type="submit"
                             class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm sm:text-base">
                             Отправить
                         </button>
                     </form>
-
                 </div>
             </div>
             <div class="flex justify-center space-x-6 mt-6">
@@ -135,128 +131,117 @@
             </div>
         </section>
         <!-- Отзывы клиентов -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold text-blue-900 mb-4">Отзывы клиентов</h2>
+        <livewire:show-reviews>
 
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    @foreach ($reviews as $review)
-                        <div class="swiper-slide">
-                            <div class="bg-white p-4 rounded-lg shadow-md">
-                                <p class="text-gray-600 text-sm sm:text-base italic">"{{ $review->отзыв }}"</p>
-                                <p class="mt-2 text-blue-900 font-semibold text-sm">{{ $review->имя_клиента }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-
-        <script>
-            var swiper = new Swiper('.swiper-container', {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                autoplay: {
-                    delay: 2000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                    type: 'none',
-                },
-                loop: true,
-                breakpoints: {
-                    640: {
-                        slidesPerView: 1,
+            <script>
+                var swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    autoplay: {
+                        delay: 2000,
+                        disableOnInteraction: false,
                     },
-                    768: {
-                        slidesPerView: 2,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        type: 'none',
                     },
-                },
-            });
-        </script>
+                    loop: true,
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                    },
+                });
+            </script>
 
-        <!-- Стиль -->
-        <style>
-            .swiper-container {
-                position: relative;
-                overflow: hidden;
-            }
+            <!-- Стиль -->
+            <style>
+                .swiper-container {
+                    position: relative;
+                    overflow: hidden;
+                }
 
-            .swiper-wrapper {
-                display: flex;
-            }
+                .swiper-wrapper {
+                    display: flex;
+                }
 
-            .swiper-slide {
-                width: 100%;
-            }
-        </style>
+                .swiper-slide {
+                    width: 100%;
+                }
+            </style>
 
-        <!-- Дополнительные способы связи -->
-        <section class="mb-12 text-center">
-            <h2 class="text-2xl font-semibold text-blue-900 mb-4">Другие способы связи</h2>
-            <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
-                <a
-                    class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm sm:text-base">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M12 0C5.373 0 0 5.373 0 12c0 2.137.578 4.246 1.672 6.082L0 24l5.918-1.672A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.936 9.936 0 01-5.073-1.41l-.364-.218-3.51.993.993-3.51-.218-.364a9.936 9.936 0 01-1.41-5.073c0-5.5 4.482-10 10-10s10 4.482 10 10-4.482 10-10 10zm5.455-7.273c-.3-.15-1.782-.882-2.06-.983-.273-.1-.473-.15-.673.15-.2.3-.782.983-.955 1.182-.173.2-.346.2-.645.05-.3-.15-1.255-.582-2.41-1.855-.91-.982-1.528-2.21-1.703-2.51-.173-.3-.018-.46.128-.61.136-.136.3-.346.455-.527.15-.182.2-.31.3-.51.1-.2.05-.373-.05-.573-.1-.2-.673-1.632-.927-2.232-.246-.582-.491-.5-.673-.51-.173-.01-.373-.01-.573-.01s-.527.15-.8.373c-.273.223-1.055.982-1.055 2.41s.764 2.81 873 3.182c.1.373 1.41 2.91 3.455 3.182 2.045.273 2.045-.182 2.41-.364.364-.182 1.455-.727 1.655-1.427.2-.7.2-1.31.1-1.455-.1-.146-.3-.227-.6-.377z" />
-                    </svg>
-                    WhatsApp
-                </a>
-                <a
-                    class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm sm:text-base">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.563 7.582l-1.91 9.01c-.14.655-.536.82-.91.51l-2.727-2.01-1.31 1.264c-.145.14-.27.255-.546.255l.2-2.764 5.01-4.51c.218-.2-.05-.31-.336-.11l-6.182 3.91-2.655-.91c-.59-.2-.6-.6.123-.89l10.364-4c.5-.182.91.11.873.255z" />
-                    </svg>
-                    Telegram
-                </a>
-                <a class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm sm:text-base"
-                    target="_blank" rel="noopener noreferrer">
-                    <span class="font-bold text-xl mr-2">ВК</span>
-                    ВКонтакте
-                </a>
-            </div>
-        </section>
-        <!-- Часто задаваемые вопросы (FAQ) -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold text-blue-900 mb-4">Часто задаваемые вопросы</h2>
-            <div class="space-y-4">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-blue-900">Как быстро вы доставляете заказы?</h3>
-                    <p class="text-gray-600 text-sm sm:text-base">Доставка по Ангарску – в течение 1-2 дней, по России
-                        –
-                        от 3 до 7 дней в зависимости от региона.</p>
+            <!-- Дополнительные способы связи -->
+            <section class="mb-12 text-center">
+                <h2 class="text-2xl font-semibold text-blue-900 mb-4">Другие способы связи</h2>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
+                    <a
+                        class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm sm:text-base">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12c0 2.137.578 4.246 1.672 6.082L0 24l5.918-1.672A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.936 9.936 0 01-5.073-1.41l-.364-.218-3.51.993.993-3.51-.218-.364a9.936 9.936 0 01-1.41-5.073c0-5.5 4.482-10 10-10s10 4.482 10 10-4.482 10-10 10zm5.455-7.273c-.3-.15-1.782-.882-2.06-.983-.273-.1-.473-.15-.673.15-.2.3-.782.983-.955 1.182-.173.2-.346.2-.645.05-.3-.15-1.255-.582-2.41-1.855-.91-.982-1.528-2.21-1.703-2.51-.173-.3-.018-.46.128-.61.136-.136.3-.346.455-.527.15-.182.2-.31.3-.51.1-.2.05-.373-.05-.573-.1-.2-.673-1.632-.927-2.232-.246-.582-.491-.5-.673-.51-.173-.01-.373-.01-.573-.01s-.527.15-.8.373c-.273.223-1.055.982-1.055 2.41s.764 2.81 873 3.182c.1.373 1.41 2.91 3.455 3.182 2.045.273 2.045-.182 2.41-.364.364-.182 1.455-.727 1.655-1.427.2-.7.2-1.31.1-1.455-.1-.146-.3-.227-.6-.377z" />
+                        </svg>
+                        WhatsApp
+                    </a>
+                    <a
+                        class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm sm:text-base">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.563 7.582l-1.91 9.01c-.14.655-.536.82-.91.51l-2.727-2.01-1.31 1.264c-.145.14-.27.255-.546.255l.2-2.764 5.01-4.51c.218-.2-.05-.31-.336-.11l-6.182 3.91-2.655-.91c-.59-.2-.6-.6.123-.89l10.364-4c.5-.182.91.11.873.255z" />
+                        </svg>
+                        Telegram
+                    </a>
+                    <a class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm sm:text-base"
+                        target="_blank" rel="noopener noreferrer">
+                        <span class="font-bold text-xl mr-2">ВК</span>
+                        ВКонтакте
+                    </a>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-blue-900">Можно ли вернуть товар?</h3>
-                    <p class="text-gray-600 text-sm sm:text-base">Да, вы можете вернуть товар в течение 14 дней при
-                        сохранении товарного вида и упаковки.</p>
+            </section>
+            <!-- Часто задаваемые вопросы (FAQ) -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-blue-900 mb-4">Часто задаваемые вопросы</h2>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-900">Как быстро вы доставляете заказы?</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Доставка по Ангарску – в течение 1-2 дней, по
+                            России
+                            –
+                            от 3 до 7 дней в зависимости от региона.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-900">Можно ли вернуть товар?</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Да, вы можете вернуть товар в течение 14 дней при
+                            сохранении товарного вида и упаковки.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-900">Какие способы оплаты вы принимаете?</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Мы принимаем оплату картами Visa, MasterCard, а
+                            также
+                            через электронные кошельки и наложенный платеж.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-900">Можно ли изменить или отменить заказ?</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Да, вы можете изменить или отменить заказ в
+                            течение 2
+                            часов после оформления, обратившись в нашу службу поддержки.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-900">Какие гарантии на товар?</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Все товары, представленные в нашем магазине,
+                            имеют
+                            гарантию от производителей сроком от 6 месяцев до 2 лет.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-900">Как отслеживать статус заказа?</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">После отправки товара вы получите номер для
+                            отслеживания на указанный e-mail или телефон, с помощью которого можно отслеживать статус
+                            доставки.</p>
+                    </div>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-blue-900">Какие способы оплаты вы принимаете?</h3>
-                    <p class="text-gray-600 text-sm sm:text-base">Мы принимаем оплату картами Visa, MasterCard, а также
-                        через электронные кошельки и наложенный платеж.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-blue-900">Можно ли изменить или отменить заказ?</h3>
-                    <p class="text-gray-600 text-sm sm:text-base">Да, вы можете изменить или отменить заказ в течение 2
-                        часов после оформления, обратившись в нашу службу поддержки.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-blue-900">Какие гарантии на товар?</h3>
-                    <p class="text-gray-600 text-sm sm:text-base">Все товары, представленные в нашем магазине, имеют
-                        гарантию от производителей сроком от 6 месяцев до 2 лет.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-blue-900">Как отслеживать статус заказа?</h3>
-                    <p class="text-gray-600 text-sm sm:text-base">После отправки товара вы получите номер для
-                        отслеживания на указанный e-mail или телефон, с помощью которого можно отслеживать статус
-                        доставки.</p>
-                </div>
-            </div>
-        </section>
+            </section>
     </div>
 </div>

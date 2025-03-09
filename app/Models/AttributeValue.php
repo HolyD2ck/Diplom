@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AttributeValue extends Model
 {
+    use HasFactory;
     protected $table = 'значения_атрибутов';
     protected $fillable = ['товар_id', 'атрибут_id', 'значение'];
     protected $visible = ['значение', 'атрибут'];

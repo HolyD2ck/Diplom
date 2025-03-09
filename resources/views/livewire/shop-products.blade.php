@@ -102,7 +102,7 @@
                             <div class="grid grid-cols-1 gap-6">
                                 @foreach ($products['data'] as $product)
                                     <div
-                                        class="bg-white rounded-lg shadow-md p-4 flex items-center hover:shadow-lg transition duration-300">
+                                        class="bg-white rounded-lg shadow-md p-4 flex items-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                                         <!-- Изображение -->
                                         <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                             <img src="{{ asset($product['основноефото']['путь'] ?? 'images/default.jpg') }}"
@@ -173,13 +173,13 @@
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                                 <button type="submit"
-                                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200 w-full">
+                                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95 w-full">
                                                     В корзину
                                                 </button>
                                             </form>
                                             <!-- Кнопка "Подробнее" -->
                                             <a href="{{ route('show', ['productId' => $product['id']]) }}"
-                                                class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm font-medium transition duration-200 w-full">
+                                                class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95 w-full">
                                                 Подробнее
                                             </a>
                                         </div>

@@ -190,7 +190,8 @@
                         <h2 class="text-xl font-semibold text-blue-900 mb-4">Похожие товары</h2>
                         <div class="space-y-6">
                             @foreach ($similarProducts as $similar)
-                                <div class="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition duration-300">
+                                <div
+                                    class="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                                     <!-- Фото -->
                                     <a href="{{ route('show', ['productId' => $similar['id']]) }}">
                                         <img src="{{ asset($similar['основноефото']['путь'] ?? 'images/default.jpg') }}"
@@ -239,7 +240,7 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $similar['id'] }}">
                                         <button type="submit"
-                                            class="w-full px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-xs font-medium transition duration-200">
+                                            class="w-full px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-xs font-medium transition duration-200 transform hover:scale-105 active:scale-95">
                                             В корзину
                                         </button>
                                     </form>
