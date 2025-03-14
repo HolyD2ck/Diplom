@@ -15,7 +15,8 @@
             <!-- Карточки партнеров -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Партнер 1: NVIDIA -->
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                <div
+                    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/NVIDIA_logo.svg/200px-NVIDIA_logo.svg.png"
                         alt="NVIDIA" class="h-16 mx-auto mb-4">
                     <h3 class="text-lg font-semibold text-blue-900 mb-2">NVIDIA</h3>
@@ -38,7 +39,8 @@
                     </div>
                 </div>
                 <!-- Партнер 2: AMD -->
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                <div
+                    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/200px-AMD_Logo.svg.png"
                         alt="AMD" class="h-16 mx-auto mb-4">
                     <h3 class="text-lg font-semibold text-blue-900 mb-2">AMD</h3>
@@ -60,7 +62,8 @@
                     </div>
                 </div>
                 <!-- Партнер 3: Intel -->
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                <div
+                    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/200px-Intel_logo_2023.svg.png"
                         alt="Intel" class="h-16 mx-auto mb-4">
                     <h3 class="text-lg font-semibold text-blue-900 mb-2">Intel</h3>
@@ -82,7 +85,8 @@
                     </div>
                 </div>
                 <!-- Партнер 4: ASUS -->
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                <div
+                    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/250px-ASUS_Logo.svg.png"
                         alt="ASUS" class="h-16 mx-auto mb-4">
                     <h3 class="text-lg font-semibold text-blue-900 mb-2">ASUS</h3>
@@ -104,7 +108,8 @@
                     </div>
                 </div>
                 <!-- Партнер 5: MSI -->
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                <div
+                    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Micro-Star_International_logo.svg/220px-Micro-Star_International_logo.svg.png"
                         alt="MSI" class="h-16 mx-auto mb-4">
                     <h3 class="text-lg font-semibold text-blue-900 mb-2">MSI</h3>
@@ -126,7 +131,8 @@
                     </div>
                 </div>
                 <!-- Партнер 6: Gigabyte -->
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                <div
+                    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Gigabyte_Technology_logo_20080107.svg/220px-Gigabyte_Technology_logo_20080107.svg.png"
                         alt="Gigabyte" class="h-16 mx-auto mb-4">
                     <h3 class="text-lg font-semibold text-blue-900 mb-2">Gigabyte</h3>
