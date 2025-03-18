@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use App\Models\Cart;
 class Navigation extends Component
 {
     public $cartCount = 0;
@@ -18,13 +19,14 @@ class Navigation extends Component
     }
     public function updateCartCount()
     {
-        $cart = session()->get('cart', []);
-        if (!empty($cart)) {
-            $this->cartCount = collect($cart)->sum('количество');
+        if (auth()->check()) {
+            $this->cartCount = Cart::where('пользователь_id', auth()->id())->sum('количество');
         } else {
-            $this->cartCount = 0;
+            $cart = session()->get('cart', []);
+            $this->cartCount = collect($cart)->sum('количество');
         }
     }
+
     public function logout(): void
     {
         \Log::info('Logout method called');

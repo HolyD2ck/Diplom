@@ -3,63 +3,102 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
-use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Nette\Schema\Expect;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Address;
+use App\Models\Cart;
 
 class ShopCart extends Component
 {
-    public $cart = [];
+    public array $cart = [];
     public $shops;
     public $user;
     public $selectedShopId = null;
     public $paymentMethod = '';
     public $isOpen = false;
+
     protected $listeners = ['cartUpdated' => 'refreshCart'];
 
     public function mount()
     {
-        $this->cart = session()->get('cart', []);
-        $this->shops = Address::all();
-        $this->user = Auth::user();
-    }
-
-    public function updateQuantity($productId, $change)
-    {
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$productId])) {
-            $cart[$productId]['количество'] = max(1, $cart[$productId]['количество'] + $change);
-            session()->put('cart', $cart);
+        try {
+            $this->user = Auth::user();
+            $this->shops = Address::all();
+            $this->refreshCart();
+        } catch (\Exception $e) {
+            \Log::error('Ошибка загрузки корзины: ' . $e->getMessage());
+            $this->cart = [];
         }
-
-        $this->cart = $cart;
-        $this->dispatch(['cartUpdated']);
     }
 
     public function refreshCart()
     {
-        $this->cart = session()->get('cart', []);
+        if (Auth::check()) {
+            $this->cart = Cart::where('пользователь_id', Auth::id())
+                ->with('товар')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'товар_id' => $item->товар_id,
+                        'название' => $item->товар->название,
+                        'цена' => $item->товар->цена,
+                        'скидка' => $item->товар->скидка ?? 0,
+                        'количество' => $item->количество,
+                        'фото' => $item->товар->основноеФото->путь ?? 'images/default.jpg',
+                    ];
+                })
+                ->toArray();
+        } else {
+            $this->cart = session()->get('cart', []);
+        }
+    }
+
+    public function updateQuantity($productId, $change)
+    {
+        if (Auth::check()) {
+            $cartItem = Cart::where('пользователь_id', Auth::id())
+                ->where('товар_id', $productId)
+                ->first();
+
+            if ($cartItem) {
+                $cartItem->количество = max(1, $cartItem->количество + $change);
+                $cartItem->save();
+            }
+        } else {
+            $cart = session()->get('cart', []);
+
+            if (isset($cart[$productId])) {
+                $cart[$productId]['количество'] = max(1, $cart[$productId]['количество'] + $change);
+                session()->put('cart', $cart);
+            }
+        }
+
+        $this->refreshCart();
+        $this->dispatch('cartUpdated');
     }
 
     public function removeFromCart($productId)
     {
-        $cart = session()->get('cart', []);
+        if (Auth::check()) {
+            Cart::where('пользователь_id', Auth::id())
+                ->where('товар_id', $productId)
+                ->delete();
+        } else {
+            $cart = session()->get('cart', []);
 
-        if (isset($cart[$productId])) {
-            unset($cart[$productId]);
-            session()->put('cart', $cart);
+            if (isset($cart[$productId])) {
+                unset($cart[$productId]);
+                session()->put('cart', $cart);
+            }
         }
 
-        $this->cart = $cart;
+        $this->refreshCart();
         $this->dispatch('cartUpdated');
     }
+
     public function openReviewModal()
     {
         if (!Auth::check()) {
@@ -74,6 +113,7 @@ class ShopCart extends Component
     {
         $this->isOpen = false;
     }
+
     public function saveOrder()
     {
         if (empty($this->cart)) {
@@ -102,10 +142,11 @@ class ShopCart extends Component
                         'цена' => $item['цена'] ?? 0,
                     ]);
                 }
+                Cart::where('пользователь_id', Auth::id())->delete();
+                session()->forget('cart');
+                $this->cart = [];
             });
 
-            $this->cart = [];
-            session()->put('cart', []);
             session()->flash('success', 'Заказ успешно оформлен!');
             $this->dispatch('orderAdded');
             $this->closeReviewModal();
@@ -114,6 +155,7 @@ class ShopCart extends Component
             session()->flash('error', 'Произошла ошибка при создании заказа: ' . $e->getMessage());
         }
     }
+
     public function render()
     {
         return view('livewire.shop-cart', [
