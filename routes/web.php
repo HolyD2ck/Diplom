@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MainApiController;
 use App\Livewire\CategoryProducts;
 
@@ -37,6 +38,10 @@ Route::get('/show/{productId}', function ($productId) {
 Route::get('/cart', [CartController::class, 'getCart'])->name('cart');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+//Маршруты избранного
+Route::get('/favorites', function () {
+    return view('shop.favorites');
+})->name('favorites');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/api.php';

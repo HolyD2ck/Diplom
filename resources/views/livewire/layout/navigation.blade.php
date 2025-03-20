@@ -82,6 +82,25 @@ new class extends Component {
                     Наши партнеры
                 </a>
 
+                <!-- Избранное -->
+                <a href="{{ route('favorites') }}"
+                    class="relative flex items-center text-sm text-gray-500 hover:text-gray-700 transition duration-200">
+
+                    @if ($favoriteCount > 0)
+                        <span
+                            class="absolute -top-3 -left-2 bg-red-500 text-white text-[12px] font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                            {{ $favoriteCount }}
+                        </span>
+                    @endif
+
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span class="ml-1">Избранное</span>
+                </a>
+
                 <!-- Корзина -->
                 <a href="{{ route('cart') }}"
                     class="relative flex items-center text-sm text-gray-500 hover:text-gray-700 transition duration-200">
@@ -190,6 +209,10 @@ new class extends Component {
             <a href="{{ route('partners') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
                 Наши партнеры
+            </a>
+            <a href="{{ route('favorites') }}"
+                class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">
+                Избранное
             </a>
             <a href="{{ route('cart') }}"
                 class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm">

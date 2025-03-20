@@ -7,15 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use App\Models\Cart;
+use App\Models\Favorite;
 class Navigation extends Component
 {
     public $cartCount = 0;
+    public $favoriteCount = 0;
 
-    protected $listeners = ['cartUpdated' => 'updateCartCount', 'orderAdded' => 'updateCartCount'];
+    protected $listeners = ['cartUpdated' => 'updateCartCount', 'orderAdded' => 'updateCartCount', 'favoriteUpdated' => 'updateFavoriteCount'];
 
     public function mount()
     {
         $this->updateCartCount();
+        $this->updateFavoriteCount();
     }
     public function updateCartCount()
     {
@@ -24,6 +27,15 @@ class Navigation extends Component
         } else {
             $cart = session()->get('cart', []);
             $this->cartCount = collect($cart)->sum('количество');
+        }
+    }
+    public function updateFavoriteCount()
+    {
+        if (Auth::check()) {
+            $this->favoriteCount = Favorite::where('пользователь_id', Auth::id())->count();
+        } else {
+            $favorites = session()->get('favorites', []);
+            $this->favoriteCount = count($favorites);
         }
     }
 

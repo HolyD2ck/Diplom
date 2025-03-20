@@ -102,60 +102,82 @@
                             <div class="grid grid-cols-1 gap-6">
                                 @foreach ($products['data'] as $product)
                                     <div
-                                        class="bg-white rounded-lg shadow-md p-4 flex items-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
+                                        class="bg-white rounded-lg shadow-md p-6 flex items-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.01] relative">
+                                        <!-- Иконка избранного (в правом верхнем углу) -->
+                                        <div class="absolute top-4 right-4">
+                                            <livewire:favorites :productId="$product['id']" />
+                                        </div>
+
                                         <!-- Изображение -->
-                                        <a href="{{ route('show', ['productId' => $product['id']]) }}">
+                                        <a href="{{ route('show', ['productId' => $product['id']]) }}"
+                                            class="flex-shrink-0">
                                             <img src="{{ asset($product['основноефото']['путь'] ?? 'images/default.jpg') }}"
                                                 alt="{{ $product['название'] }}"
-                                                class="w-32 h-32 object-contain rounded-lg flex-shrink-0">
+                                                class="w-32 h-32 object-contain rounded-lg">
                                         </a>
+
                                         <!-- Информация о товаре -->
-                                        <div class="ml-4 flex-1">
-                                            <h3 class="text-lg font-semibold text-gray-800">
+                                        <div class="ml-6 flex-1">
+                                            <!-- Название товара -->
+                                            <h3 class="text-xl font-semibold text-gray-800">
                                                 {{ $category['название'] }}
                                                 {{ $product['название'] ?? 'Без названия' }}
                                             </h3>
-                                            <div class="mt-2">
+
+                                            <!-- Цена и скидка -->
+                                            <div class="mt-3">
                                                 @if (($product['скидка'] ?? 0) > 0)
-                                                    <span class="text-gray-500 line-through">
-                                                        {{ number_format($product['цена'], 0, '.', ' ') }} ₽
-                                                    </span>
-                                                    <span class="text-blue-700 font-medium ml-2">
-                                                        {{ number_format($product['цена'] * (1 - $product['скидка'] / 100), 0, '.', ' ') }}
-                                                        ₽
-                                                    </span>
-                                                    <span
-                                                        class="text-blue-500 text-sm ml-2">(-{{ $product['скидка'] }}%)</span>
+                                                    <div class="flex items-center space-x-2">
+                                                        <span class="text-gray-500 line-through">
+                                                            {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                                        </span>
+                                                        <span class="text-blue-700 font-bold text-lg">
+                                                            {{ number_format($product['цена'] * (1 - $product['скидка'] / 100), 0, '.', ' ') }}
+                                                            ₽
+                                                        </span>
+                                                        <span
+                                                            class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-sm font-medium">
+                                                            -{{ $product['скидка'] }}%
+                                                        </span>
+                                                    </div>
                                                 @else
-                                                    <span class="text-blue-700 font-medium">
+                                                    <span class="text-blue-700 font-bold text-lg">
                                                         {{ number_format($product['цена'], 0, '.', ' ') }} ₽
                                                     </span>
                                                 @endif
                                             </div>
-                                            <p class="text-blue-700 text-sm font-medium mt-1">
-                                                Рейтинг:
-                                                <span class="text-yellow-500 text-lg">
+
+                                            <!-- Рейтинг -->
+                                            <div class="mt-2 flex items-center space-x-1">
+                                                <span class="text-blue-700 text-sm font-medium">Рейтинг:</span>
+                                                <div class="flex items-center space-x-1">
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
-                                                            ★
+                                                            <span class="text-yellow-500 text-lg">★</span>
                                                         @else
-                                                            ☆
+                                                            <span class="text-gray-300 text-lg">☆</span>
                                                         @endif
                                                     @endfor
+                                                </div>
+                                                <span class="text-blue-700 font-medium">
+                                                    ({{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }})
                                                 </span>
-                                                <span class="text-blue-700 font-medium ml-2">
-                                                    {{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }}
+                                            </div>
+
+                                            <!-- Производитель -->
+                                            <div class="mt-2">
+                                                <span class="text-gray-600 font-medium">
+                                                    Производитель: <span
+                                                        class="text-blue-900">{{ $product['производитель'] }}</span>
                                                 </span>
-                                            </p>
-                                            <span class="font-medium text-blue-900">
-                                                Производитель: {{ $product['производитель'] }}
-                                            </span>
+                                            </div>
+
                                             <!-- Атрибуты -->
                                             @if (!empty($product['значенияатрибутов']))
-                                                <div class="mt-3 text-sm text-gray-600">
+                                                <div class="mt-3">
                                                     <ul class="space-y-1">
                                                         @foreach (array_slice($product['значенияатрибутов'], 0, 3) as $attribute)
-                                                            <li>
+                                                            <li class="text-sm text-gray-600">
                                                                 <span
                                                                     class="font-medium text-blue-900">{{ $attribute['атрибут']['название'] }}:</span>
                                                                 {{ $attribute['значение'] }}
@@ -166,20 +188,22 @@
                                             @endif
                                         </div>
 
-                                        <div class="flex flex-col ml-4">
-                                            <div class="text-center mb-2">
-                                            </div>
-                                            <form action="{{ route('cart.add') }}" method="POST" class="mb-2">
+                                        <!-- Кнопки -->
+                                        <div class="flex flex-col ml-6 space-y-3">
+                                            <!-- Кнопка "В корзину" -->
+                                            <form action="{{ route('cart.add') }}" method="POST" class="w-full">
                                                 @csrf
-                                                <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                                <input type="hidden" name="product_id"
+                                                    value="{{ $product['id'] }}">
                                                 <button type="submit"
-                                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95 w-full">
+                                                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition duration-200 transform hover:scale-105 active:scale-95 w-full">
                                                     В корзину
                                                 </button>
                                             </form>
+
                                             <!-- Кнопка "Подробнее" -->
                                             <a href="{{ route('show', ['productId' => $product['id']]) }}"
-                                                class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm font-medium transition duration-200 transform hover:scale-105 active:scale-95 w-full">
+                                                class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 font-medium transition duration-200 transform hover:scale-105 active:scale-95 w-full text-center">
                                                 Подробнее
                                             </a>
                                         </div>

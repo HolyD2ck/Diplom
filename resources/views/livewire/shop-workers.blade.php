@@ -5,6 +5,7 @@
             <h1 class="text-3xl sm:text-4xl font-bold text-blue-900">Команда TechStore</h1>
             <p class="mt-2 text-lg sm:text-xl text-gray-700">Познакомьтесь с нашей командой и узнайте, как стать частью
                 TechStore!</p>
+
             <div class="mt-4 w-full h-48 sm:h-64 bg-cover bg-center rounded-lg shadow-md"
                 style="background-image: url({{ asset('img/workers.jpg') }});">
             </div>

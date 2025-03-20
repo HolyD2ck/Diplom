@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
+use App\Models\Cart;
+use App\Models\Favorite;
+
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
@@ -30,7 +33,48 @@ new #[Layout('layouts.guest')] class extends Component {
         event(new Registered(($user = User::create($validated))));
 
         Auth::login($user);
+        $this->transferCartToDatabase();
+        $this->transferFavoriteToDatabase();
         $this->redirect(route('dashboard', absolute: false), navigate: false);
+    }
+
+    protected function transferCartToDatabase()
+    {
+        $cart = session()->get('cart', []);
+
+        if (!empty($cart)) {
+            foreach ($cart as $productId => $item) {
+                $cartItem = Cart::firstOrNew([
+                    'пользователь_id' => Auth::id(),
+                    'товар_id' => $productId,
+                ]);
+
+                $cartItem->количество += $item['количество'];
+                $cartItem->save();
+            }
+
+            session()->forget('cart');
+        }
+    }
+
+    protected function transferFavoriteToDatabase()
+    {
+        $favorites = session()->get('favorites', []);
+
+        if (!empty($favorites)) {
+            foreach ($favorites as $productId) {
+                $favorite = Favorite::where('пользователь_id', Auth::id())->where('товар_id', $productId)->first();
+
+                if (!$favorite) {
+                    Favorite::create([
+                        'пользователь_id' => Auth::id(),
+                        'товар_id' => $productId,
+                    ]);
+                }
+            }
+
+            session()->forget('favorites');
+        }
     }
 }; ?>
 

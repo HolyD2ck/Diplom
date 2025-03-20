@@ -1,4 +1,4 @@
-<div class="flex-1 w-full relative">
+<div class="relative w-full">
     <!-- Поле поиска -->
     <input type="text" wire:model.debounce.1ms="value" wire:change="FindDelo"
         placeholder="Поиск товаров или категорий..."

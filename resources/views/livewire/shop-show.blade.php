@@ -5,83 +5,98 @@
                 <!-- Основной контент (слева) -->
                 <div class="w-full lg:w-3/4">
                     <!-- Основной блок с названием и фото -->
-                    <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6">
-                        <div class="flex flex-col lg:flex-row gap-6">
-                            <!-- Фото -->
-                            <div class="w-full lg:w-1/2">
-                                <img src="{{ asset($mainPhoto) }}" alt="{{ $product['название'] }}"
-                                    class="w-full h-64 lg:h-96 object-contain rounded-lg mb-4">
-                                <!-- Галерея миниатюр -->
-                                @if (!empty($product['фотографии']))
-                                    <div class="flex gap-2 overflow-x-auto">
-                                        @foreach ($product['фотографии'] as $photo)
-                                            <img src="{{ asset($photo['путь']) }}" alt="{{ $product['название'] }}"
-                                                class="w-16 h-16 object-cover rounded-lg cursor-pointer hover:opacity-75 transition duration-200"
-                                                wire:click="setMainPhoto('{{ $photo['путь'] }}')">
-                                        @endforeach
-                                    </div>
-                                @endif
+                    <div
+                        class="bg-white rounded-lg shadow-md p-6 flex flex-col lg:flex-row items-center hover:shadow-lg transition-all duration-300 relative">
+                        <!-- Иконка избранного (в правом верхнем углу) -->
+                        <div class="absolute top-6 right-6 z-10">
+                            <livewire:favorites :productId="$product['id']" />
+                        </div>
+
+                        <!-- Фото -->
+                        <div class="w-full lg:w-1/2">
+                            <img src="{{ asset($mainPhoto) }}" alt="{{ $product['название'] }}"
+                                class="w-full h-64 lg:h-96 object-contain rounded-lg mb-4">
+                            <!-- Галерея миниатюр -->
+                            @if (!empty($product['фотографии']))
+                                <div class="flex gap-2 overflow-x-auto">
+                                    @foreach ($product['фотографии'] as $photo)
+                                        <img src="{{ asset($photo['путь']) }}" alt="{{ $product['название'] }}"
+                                            class="w-16 h-16 object-cover rounded-lg cursor-pointer hover:opacity-75 transition duration-200"
+                                            wire:click="setMainPhoto('{{ $photo['путь'] }}')">
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Название и цена -->
+                        <div class="w-full lg:w-1/2 ml-6">
+                            <h1 class="text-2xl sm:text-3xl font-bold text-blue-900 mb-4">
+                                {{ $product['название'] ?? 'Без названия' }}
+                            </h1>
+
+                            <!-- Рейтинг -->
+                            <div class="flex items-center mb-4">
+                                <span class="text-yellow-500 text-lg">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
+                                            ★
+                                        @else
+                                            ☆
+                                        @endif
+                                    @endfor
+                                </span>
+                                <span class="text-blue-700 font-medium ml-2">
+                                    ({{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }})
+                                </span>
                             </div>
 
-                            <!-- Название и цена -->
-                            <div class="w-full lg:w-1/2">
-                                <h1 class="text-2xl sm:text-3xl font-bold text-blue-900 mb-4">
-                                    {{ $product['название'] ?? 'Без названия' }}
-                                </h1>
-                                <div class="flex items-center mb-4">
-                                    <span class="text-yellow-500 text-lg">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
-                                                ★
-                                            @else
-                                                ☆
-                                            @endif
-                                        @endfor
-                                    </span>
-                                    <span class="text-blue-700 font-medium ml-2">
-                                        {{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }}
-                                    </span>
-                                </div>
-                                <!-- Цена и наличие -->
-                                <div class="mb-4">
-                                    @if (($product['скидка'] ?? 0) > 0)
+                            <!-- Цена и наличие -->
+                            <div class="mb-4">
+                                @if (($product['скидка'] ?? 0) > 0)
+                                    <div class="flex items-center space-x-2">
                                         <span class="text-gray-500 line-through text-lg">
                                             {{ number_format($product['цена'], 0, '.', ' ') }} ₽
                                         </span>
-                                        <span class="text-blue-700 text-2xl font-bold ml-2">
+                                        <span class="text-blue-700 font-bold text-2xl">
                                             {{ number_format($product['цена'] * (1 - $product['скидка'] / 100), 0, '.', ' ') }}
                                             ₽
                                         </span>
-                                        <span class="text-blue-500 text-sm ml-2">(-{{ $product['скидка'] }}%)</span>
-                                    @else
-                                        <span class="text-blue-700 text-2xl font-bold">
-                                            {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                        <span
+                                            class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-sm font-medium">
+                                            -{{ $product['скидка'] }}%
                                         </span>
-                                    @endif
-                                </div>
-                                <!-- Наличие -->
-                                <p class="text-sm mb-4">
-                                    @if ($product['наличие'] ?? true)
-                                        <span class="text-green-600 font-medium">В наличии</span>
-                                    @else
-                                        <span class="text-red-600 font-medium">Нет в наличии</span>
-                                    @endif
-                                </p>
-                                <!-- Кнопка "В корзину" -->
-                                <form action="{{ route('cart.add') }}" method="POST" class="mt-4">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
-                                    <button type="submit"
-                                        class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-base font-medium transition duration-200">
-                                        Добавить в корзину
-                                    </button>
-                                </form>
+                                    </div>
+                                @else
+                                    <span class="text-blue-700 font-bold text-2xl">
+                                        {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                    </span>
+                                @endif
                             </div>
+
+                            <!-- Наличие -->
+                            <p class="text-sm mb-4">
+                                @if ($product['наличие'] ?? true)
+                                    <span class="text-green-600 font-medium">В наличии</span>
+                                @else
+                                    <span class="text-red-600 font-medium">Нет в наличии</span>
+                                @endif
+                            </p>
+
+                            <!-- Кнопка "В корзину" -->
+                            <form action="{{ route('cart.add') }}" method="POST" class="mt-4">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                <button type="submit"
+                                    class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-base font-medium transition duration-200">
+                                    Добавить в корзину
+                                </button>
+                            </form>
                         </div>
                     </div>
+                    <br>
 
                     <!-- Характеристики товара -->
-                    <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
                         <h2 class="text-xl font-semibold text-blue-900 mb-4">Характеристики</h2>
                         <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
                             <div>
@@ -105,13 +120,13 @@
                     </div>
 
                     <!-- Описание -->
-                    <div class="bg-gray-200 rounded-2xl shadow-lg p-4 sm:p-6 mb-6">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
                         <h2 class="text-xl font-semibold text-blue-900 mb-4">Описание</h2>
                         <p class="text-gray-600">{{ $product['описание'] ?? 'Описание отсутствует' }}</p>
                     </div>
 
                     <!-- Отзывы и рейтинг -->
-                    <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl sm:text-2xl font-semibold text-blue-900">Отзывы и рейтинг</h2>
                             <button wire:click="openReviewModal"
@@ -191,47 +206,60 @@
                         <div class="space-y-6">
                             @foreach ($similarProducts as $similar)
                                 <div
-                                    class="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
+                                    class="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] relative">
+                                    <!-- Иконка избранного (в правом верхнем углу) -->
+                                    <div class="absolute top-2 right-2 z-10">
+                                        <livewire:favorites :productId="$similar['id']" />
+                                    </div>
+
                                     <!-- Фото -->
                                     <a href="{{ route('show', ['productId' => $similar['id']]) }}">
                                         <img src="{{ asset($similar['основноефото']['путь'] ?? 'images/default.jpg') }}"
                                             alt="{{ $similar['название'] }}"
                                             class="w-full h-24 object-contain rounded-t-lg mb-2">
                                     </a>
+
                                     <!-- Название -->
                                     <h3 class="text-sm font-semibold text-gray-800 line-clamp-2">
                                         {{ $similar['название'] ?? 'Без названия' }}
                                     </h3>
 
                                     <!-- Рейтинг -->
-                                    <p class="text-yellow-500 text-xs mt-1 flex items-center">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            @if ($i <= floor($similar['среднийрейтинг']['средний_рейтинг'] ?? 0))
-                                                ★
-                                            @else
-                                                ☆
-                                            @endif
-                                        @endfor
-                                        <span class="text-blue-700 font-medium ml-1">
-                                            {{ $similar['среднийрейтинг']['средний_рейтинг'] ?? 'N/A' }}
+                                    <div class="flex items-center mt-1">
+                                        <span class="text-yellow-500 text-sm">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= floor($similar['среднийрейтинг']['средний_рейтинг'] ?? 0))
+                                                    ★
+                                                @else
+                                                    ☆
+                                                @endif
+                                            @endfor
                                         </span>
-                                    </p>
+                                        <span class="text-blue-700 font-medium text-sm ml-1">
+                                            ({{ $similar['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }})
+                                        </span>
+                                    </div>
 
-                                    <!-- Цена со скидкой -->
+                                    <!-- Цена и скидка -->
                                     <div class="mt-1">
                                         @if (($similar['скидка'] ?? 0) > 0)
-                                            <span class="text-gray-500 line-through text-xs">
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-gray-500 line-through text-sm">
+                                                    {{ number_format($similar['цена'], 0, '.', ' ') }} ₽
+                                                </span>
+                                                <span class="text-blue-700 font-bold text-sm">
+                                                    {{ number_format($similar['цена'] * (1 - ($similar['скидка'] ?? 0) / 100), 0, '.', ' ') }}
+                                                    ₽
+                                                </span>
+                                                <span
+                                                    class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full text-xs font-medium">
+                                                    -{{ $similar['скидка'] }}%
+                                                </span>
+                                            </div>
+                                        @else
+                                            <span class="text-blue-700 font-bold text-sm">
                                                 {{ number_format($similar['цена'], 0, '.', ' ') }} ₽
                                             </span>
-                                            <p class="text-blue-700 font-medium text-sm">
-                                                {{ number_format($similar['цена'] * (1 - ($similar['скидка'] ?? 0) / 100), 0, '.', ' ') }}
-                                                ₽
-                                                <span class="text-blue-500 text-xs">(-{{ $similar['скидка'] }}%)</span>
-                                            </p>
-                                        @else
-                                            <p class="text-blue-700 font-medium text-sm">
-                                                {{ number_format($similar['цена'], 0, '.', ' ') }} ₽
-                                            </p>
                                         @endif
                                     </div>
 

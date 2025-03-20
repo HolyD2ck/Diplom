@@ -148,39 +148,63 @@
                     @forelse ($popularProducts as $product)
                         <div class="swiper-slide">
                             <div
-                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
+                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 relative">
+                                <!-- Иконка избранного (в правом верхнем углу) -->
+                                <div class="absolute top-2 right-2 z-10">
+                                    <livewire:favorites :productId="$product['id']" />
+                                </div>
+
+                                <!-- Фото -->
                                 <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                     <img src="{{ asset($product['основноефото']['путь']) }}"
                                         class="w-full h-40 object-contain rounded-t-lg">
                                 </a>
+
+                                <!-- Название -->
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800">
                                     {{ $product['название'] ?? 'Без названия' }}
                                 </h3>
-                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px]">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
-                                            ★
-                                        @else
-                                            ☆
-                                        @endif
-                                    @endfor
-                                    <span class="text-blue-700 font-medium ml-1">
-                                        {{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'N/A' }}
+
+                                <!-- Рейтинг -->
+                                <div class="flex items-center mt-1">
+                                    <span class="text-yellow-500 text-sm">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
+                                                ★
+                                            @else
+                                                ☆
+                                            @endif
+                                        @endfor
                                     </span>
-                                </p>
+                                    <span class="text-blue-700 font-medium text-sm ml-1">
+                                        ({{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }})
+                                    </span>
+                                </div>
+
+                                <!-- Цена и скидка -->
                                 <div class="mt-2">
                                     @if ($product['скидка'] > 0)
-                                        <span class="text-gray-500 line-through">{{ round($product['цена'], 2) }}
-                                            ₽</span>
-                                        <span class="text-blue-500 ml-2">
-                                            {{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
-                                            ₽
-                                        </span>
-                                        <span class="text-blue-500 ml-2">(-{{ $product['скидка'] }}%)</span>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-gray-500 line-through text-sm">
+                                                {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                            </span>
+                                            <span class="text-blue-700 font-bold text-sm">
+                                                {{ number_format($product['цена'] * (1 - ($product['скидка'] ?? 0) / 100), 0, '.', ' ') }}
+                                                ₽
+                                            </span>
+                                            <span
+                                                class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full text-xs font-medium">
+                                                -{{ $product['скидка'] }}%
+                                            </span>
+                                        </div>
                                     @else
-                                        <span class="text-blue-700">{{ round($product['цена'], 2) }} ₽</span>
+                                        <span class="text-blue-700 font-bold text-sm">
+                                            {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                        </span>
                                     @endif
                                 </div>
+
+                                <!-- Кнопка "В корзину" -->
                                 <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product['id'] }}">
@@ -207,39 +231,63 @@
                     @forelse ($discountProducts as $product)
                         <div class="swiper-slide">
                             <div
-                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
+                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 relative">
+                                <!-- Иконка избранного (в правом верхнем углу) -->
+                                <div class="absolute top-2 right-2 z-10">
+                                    <livewire:favorites :productId="$product['id']" />
+                                </div>
+
+                                <!-- Фото -->
                                 <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                     <img src="{{ asset($product['основноефото']['путь']) }}"
                                         class="w-full h-40 object-contain rounded-t-lg">
                                 </a>
+
+                                <!-- Название -->
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800">
                                     {{ $product['название'] ?? 'Без названия' }}
                                 </h3>
-                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px]">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
-                                            ★
-                                        @else
-                                            ☆
-                                        @endif
-                                    @endfor
-                                    <span class="text-blue-700 font-medium ml-1">
-                                        {{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'N/A' }}
+
+                                <!-- Рейтинг -->
+                                <div class="flex items-center mt-1">
+                                    <span class="text-yellow-500 text-sm">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
+                                                ★
+                                            @else
+                                                ☆
+                                            @endif
+                                        @endfor
                                     </span>
-                                </p>
+                                    <span class="text-blue-700 font-medium text-sm ml-1">
+                                        ({{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }})
+                                    </span>
+                                </div>
+
+                                <!-- Цена и скидка -->
                                 <div class="mt-2">
                                     @if ($product['скидка'] > 0)
-                                        <span class="text-gray-500 line-through">{{ round($product['цена'], 2) }}
-                                            ₽</span>
-                                        <span class="text-red-500 ml-2">
-                                            {{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
-                                            ₽
-                                        </span>
-                                        <span class="text-red-500 ml-2">(-{{ $product['скидка'] }}%)</span>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-gray-500 line-through text-sm">
+                                                {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                            </span>
+                                            <span class="text-red-700 font-bold text-sm">
+                                                {{ number_format($product['цена'] * (1 - ($product['скидка'] ?? 0) / 100), 0, '.', ' ') }}
+                                                ₽
+                                            </span>
+                                            <span
+                                                class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full text-xs font-medium">
+                                                -{{ $product['скидка'] }}%
+                                            </span>
+                                        </div>
                                     @else
-                                        <span class="text-blue-700">{{ round($product['цена'], 2) }} ₽</span>
+                                        <span class="text-blue-700 font-bold text-sm">
+                                            {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                        </span>
                                     @endif
                                 </div>
+
+                                <!-- Кнопка "В корзину" -->
                                 <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product['id'] }}">
@@ -251,12 +299,12 @@
                             </div>
                         </div>
                     @empty
-                        <div class="text-center w-full py-6 text-gray-600">Загрузка популярных товаров...</div>
+                        <div class="text-center w-full py-6 text-gray-600">Загрузка скидочных товаров...</div>
                     @endforelse
                 </div>
             </div>
         </section>
-        <!-- Лучшие Отзывы -->
+        <!-- Лучшие отзывы -->
         <section
             class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-6 sm:py-8 lg:py-10 mt-8 bg-green-100 rounded-2xl shadow-lg">
             <h2 class="text-2xl sm:text-3xl font-semibold text-green-900 mb-6">Товары с самой лучшей оценкой</h2>
@@ -265,39 +313,63 @@
                     @forelse ($bestProducts as $product)
                         <div class="swiper-slide">
                             <div
-                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
+                                class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 relative">
+                                <!-- Иконка избранного (в правом верхнем углу) -->
+                                <div class="absolute top-2 right-2 z-10">
+                                    <livewire:favorites :productId="$product['id']" />
+                                </div>
+
+                                <!-- Фото -->
                                 <a href="{{ route('show', ['productId' => $product['id']]) }}">
                                     <img src="{{ asset($product['основноефото']['путь']) }}"
                                         class="w-full h-40 object-contain rounded-t-lg">
                                 </a>
+
+                                <!-- Название -->
                                 <h3 class="mt-3 text-lg font-semibold text-gray-800">
                                     {{ $product['название'] ?? 'Без названия' }}
                                 </h3>
-                                <p class="text-yellow-500 text-xs mt-1 flex items-center text-[16px]">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
-                                            ★
-                                        @else
-                                            ☆
-                                        @endif
-                                    @endfor
-                                    <span class="text-blue-700 font-medium ml-1">
-                                        {{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'N/A' }}
+
+                                <!-- Рейтинг -->
+                                <div class="flex items-center mt-1">
+                                    <span class="text-yellow-500 text-sm">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= floor($product['среднийрейтинг']['средний_рейтинг'] ?? 0))
+                                                ★
+                                            @else
+                                                ☆
+                                            @endif
+                                        @endfor
                                     </span>
-                                </p>
+                                    <span class="text-blue-700 font-medium text-sm ml-1">
+                                        ({{ $product['среднийрейтинг']['средний_рейтинг'] ?? 'Нет рейтинга' }})
+                                    </span>
+                                </div>
+
+                                <!-- Цена и скидка -->
                                 <div class="mt-2">
                                     @if ($product['скидка'] > 0)
-                                        <span class="text-gray-500 line-through">{{ round($product['цена'], 2) }}
-                                            ₽</span>
-                                        <span class="text-green-500 ml-2">
-                                            {{ round($product['цена'] - ($product['цена'] * $product['скидка']) / 100, 2) }}
-                                            ₽
-                                        </span>
-                                        <span class="text-green-500 ml-2">(-{{ $product['скидка'] }}%)</span>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-gray-500 line-through text-sm">
+                                                {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                            </span>
+                                            <span class="text-green-700 font-bold text-sm">
+                                                {{ number_format($product['цена'] * (1 - ($product['скидка'] ?? 0) / 100), 0, '.', ' ') }}
+                                                ₽
+                                            </span>
+                                            <span
+                                                class="bg-green-100 text-green-600 px-1.5 py-0.5 rounded-full text-xs font-medium">
+                                                -{{ $product['скидка'] }}%
+                                            </span>
+                                        </div>
                                     @else
-                                        <span class="text-blue-700">{{ round($product['цена'], 2) }} ₽</span>
+                                        <span class="text-blue-700 font-bold text-sm">
+                                            {{ number_format($product['цена'], 0, '.', ' ') }} ₽
+                                        </span>
                                     @endif
                                 </div>
+
+                                <!-- Кнопка "В корзину" -->
                                 <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product['id'] }}">
@@ -309,7 +381,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="text-center w-full py-6 text-gray-600">Загрузка популярных товаров...</div>
+                        <div class="text-center w-full py-6 text-gray-600">Загрузка товаров с лучшими отзывами...</div>
                     @endforelse
                 </div>
             </div>

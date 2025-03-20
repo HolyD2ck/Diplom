@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Models\Cart;
+use App\Models\Favorite;
 use Illuminate\Support\Facades\DB;
 
 class LoginForm extends Form
@@ -40,6 +41,7 @@ class LoginForm extends Form
             ]);
         }
         $this->transferCartToDatabase();
+        $this->transferFavoriteToDatabase();
         RateLimiter::clear($this->throttleKey());
     }
     protected function transferCartToDatabase()
@@ -65,6 +67,27 @@ class LoginForm extends Form
             }
 
             session()->forget('cart');
+        }
+    }
+    protected function transferFavoriteToDatabase()
+    {
+        $favorites = session()->get('favorites', []);
+
+        if (!empty($favorites)) {
+            foreach ($favorites as $productId) {
+                $favorite = Favorite::where('пользователь_id', Auth::id())
+                    ->where('товар_id', $productId)
+                    ->first();
+
+                if (!$favorite) {
+                    Favorite::create([
+                        'пользователь_id' => Auth::id(),
+                        'товар_id' => $productId,
+                    ]);
+                }
+            }
+
+            session()->forget('favorites');
         }
     }
 
