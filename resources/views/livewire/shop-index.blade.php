@@ -47,7 +47,7 @@
                 <div class="swiper-wrapper">
                     <!-- Карточки категорий -->
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 11]) }}">
+                        <a href="{{ route('category', ['categoryId' => 1]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/video.jpg') }}" alt="Видеокарты"
@@ -57,7 +57,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 12]) }}">
+                        <a href="{{ route('category', ['categoryId' => 2]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/pro.jpg') }}" alt="Процессоры"
@@ -67,7 +67,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 13]) }}">
+                        <a href="{{ route('category', ['categoryId' => 3]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/mama.jpg') }}" alt="Материнские платы"
@@ -77,7 +77,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 14]) }}">
+                        <a href="{{ route('category', ['categoryId' => 4]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/opera.jpg') }}" alt="Оперативная память"
@@ -87,7 +87,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 15]) }}">
+                        <a href="{{ route('category', ['categoryId' => 5]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/case.jpg') }}" alt="Корпуса"
@@ -97,7 +97,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 16]) }}">
+                        <a href="{{ route('category', ['categoryId' => 6]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/pow.jpg') }}" alt="Блоки питания"
@@ -107,7 +107,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 17]) }}">
+                        <a href="{{ route('category', ['categoryId' => 7]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/ssd.jpg') }}" alt="SSD"
@@ -117,7 +117,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 18]) }}">
+                        <a href="{{ route('category', ['categoryId' => 8]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/hdd.jpg') }}" alt="HDD"
@@ -127,7 +127,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="{{ route('category', ['categoryId' => 19]) }}">
+                        <a href="{{ route('category', ['categoryId' => 9]) }}">
                             <div
                                 class="bg-orange-200 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105">
                                 <img src="{{ asset('img/monic.jpg') }}" alt="Мониторы"

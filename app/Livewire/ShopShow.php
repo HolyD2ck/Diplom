@@ -30,7 +30,7 @@ class ShopShow extends Component
     public function loadProduct()
     {
         try {
-            $response = Http::timeout(15)->get("http://halava7d.beget.tech/product/{$this->productId}");
+            $response = Http::timeout(15)->get("http://halavaay.beget.tech/product/{$this->productId}");
             $this->product = $response->successful() ? $response->json() : [];
 
             $this->mainPhoto = collect($this->product['фотографии'] ?? [])

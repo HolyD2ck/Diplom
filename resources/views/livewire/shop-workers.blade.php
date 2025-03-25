@@ -22,8 +22,14 @@
                     @foreach ($employees as $employee)
                         <div
                             class="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                            <h3 class="text-lg font-semibold text-blue-900 mb-2">{{ $employee->имя }}
-                                {{ $employee->фамилия }}</h3>
+                            <!-- Иконка с фото -->
+                            <div class="flex items-center justify-center mb-4">
+                                <img src="{{ $employee->фото }}" alt="{{ $employee->имя }} {{ $employee->фамилия }}"
+                                    class="w 16 h-16 rounded-full object-cover mr-3 shadow-sm">
+                                <h3 class="text-lg font-semibold text-blue-900">
+                                    {{ $employee->имя }} {{ $employee->фамилия }}
+                                </h3>
+                            </div>
                             <p class="text-gray-600 text-sm mb-2">{{ $employee->должность }}</p>
                             <div class="border-t border-gray-200 pt-2">
                                 <p class="text-gray-500 text-xs">
@@ -40,6 +46,7 @@
                 </div>
             </div>
         </section>
+
 
         <!-- Как устроиться к нам -->
         <section class="mb-12">

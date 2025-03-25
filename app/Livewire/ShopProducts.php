@@ -51,7 +51,7 @@ class ShopProducts extends Component
             'sort' => $this->sortBy,
         ];
 
-        $fullUrl = "http://halava7d.beget.tech/shop-products/{$this->categoryId}?" . http_build_query($query);
+        $fullUrl = "http://halavaay.beget.tech/shop-products/{$this->categoryId}?" . http_build_query($query);
 
         $response = Http::timeout(15)->get($fullUrl);
         $this->products = $response->json();

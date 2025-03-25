@@ -50,7 +50,10 @@ class PhotoFactory extends Factory
 
         $mainPhotoFile = $mainPhotos[array_rand($mainPhotos)];
 
-        $additionalPhotosFiles = array_slice($otherPhotos, 0, 3);
+        $otherPhotos = array_values($otherPhotos);
+        shuffle($otherPhotos);
+
+        $additionalPhotosFiles = array_slice($otherPhotos, 0, min(3, count($otherPhotos)));
 
         Photo::create([
             'путь' => "faker/main/{$categoryName}/{$mainPhotoFile}",
@@ -66,4 +69,5 @@ class PhotoFactory extends Factory
             ]);
         }
     }
+
 }

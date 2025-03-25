@@ -1,45 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+    <div class="bg-gray-100 min-h-screen pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="bg-blue-100 dark:bg-gray-900 min-h-screen py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Заголовок -->
+                    <h1 class="text-2xl sm:text-3xl font-semibold text-blue-900 mb-6">Профиль пользователя
+                        {{ auth()->user()->name }}
+                    </h1>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <!-- Просмотр заказов -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                        {{ __('Ваши заказы') }}
-                    </h3>
-                    <livewire:user-profile />
-                </div>
-            </div>
-            <!-- Редактирование профиля -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <livewire:profile.update-profile-information-form />
-                </div>
-            </div>
+                    <!-- Основная сетка -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Левая колонка -->
+                        <div class="space-y-6">
+                            <!-- Информация о профиле -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Личная информация</h2>
+                                <livewire:profile.update-profile-information-form />
+                            </div>
 
-            <!-- Изменение пароля -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <livewire:profile.update-password-form />
-                </div>
-            </div>
+                            <!-- История заказов -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Ваши заказы</h2>
+                                <livewire:user-profile />
+                            </div>
+                        </div>
 
-            <!-- Удаление аккаунта -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <livewire:profile.delete-user-form />
+                        <!-- Правая колонка -->
+                        <div class="space-y-6">
+                            <!-- Безопасность -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Безопасность</h2>
+                                <livewire:profile.update-password-form />
+                            </div>
+
+                            <!-- Удаление аккаунта -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Удаление аккаунта</h2>
+                                <livewire:profile.delete-user-form />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endsection
     </div>
-
-    <livewire:footer />
-@endsection
+</div>

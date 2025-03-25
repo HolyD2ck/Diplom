@@ -29,7 +29,19 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'фото' => $this->randomPhoto(),
         ];
+    }
+    public function randomPhoto(): string
+    {
+        $path = public_path('img/users');
+        $files = array_diff(scandir($path), ['.', '..']);
+
+        if (empty($files)) {
+            return 'img/users/default.png';
+        }
+
+        return 'img/users/' . $files[array_rand($files)];
     }
 
     /**
@@ -37,7 +49,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

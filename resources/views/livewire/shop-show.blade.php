@@ -161,6 +161,14 @@
                                     <div
                                         class="bg-gray-50 rounded-lg p-4 border-2 {{ $review['рейтинг'] >= 4 ? 'border-green-200' : 'border-red-200' }} shadow-sm hover:shadow-md transition duration-200">
                                         <div class="flex items-start gap-4">
+                                            <!-- Иконка фото пользователя -->
+                                            <div
+                                                class="w-10 h-10 rounded-full overflow-hidden shadow-sm border-2 border-white">
+                                                <img src="{{ asset($review['пользователь']['фото']) }}"
+                                                    alt="{{ $review['пользователь']['name'] ?? 'Аноним' }}"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+
                                             <div class="flex-1">
                                                 <div class="flex items-center justify-between">
                                                     <p class="text-gray-800 font-medium text-lg">

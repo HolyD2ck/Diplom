@@ -34,19 +34,19 @@ class ShopIndex extends Component
     }
     public function loadPopularProducts()
     {
-        $response = Http::get('http://halava7d.beget.tech/random-products');
+        $response = Http::get('http://halavaay.beget.tech/random-products');
         $this->popularProducts = $response->successful() ? $response->json() : [];
     }
 
     public function loadDiscountProducts()
     {
-        $response = Http::get('http://halava7d.beget.tech/discount-products');
+        $response = Http::get('http://halavaay.beget.tech/discount-products');
         $this->discountProducts = $response->successful() ? $response->json() : [];
     }
 
     public function loadBestProducts()
     {
-        $response = Http::get('http://halava7d.beget.tech/best-products');
+        $response = Http::get('http://halavaay.beget.tech/best-products');
         $this->bestProducts = $response->successful() ? $response->json() : [];
     }
 

@@ -83,8 +83,8 @@ class DatabaseSeeder extends Seeder
         $attributeFactory->Связи();
 
         //Создание работников
-        if (Employee::count() < 10) {
-            Employee::factory(10)->create();
+        if (Employee::count() < 20) {
+            Employee::factory(20)->create();
         }
 
         //Создание поставщиков
@@ -97,8 +97,8 @@ class DatabaseSeeder extends Seeder
             User::factory(100)->create();
         }
         //Создание товаров
-        if (Product::count() > 300) {
-            $numProducts = 300;
+        if (Product::count() < 600) {
+            $numProducts = 600;
 
             for ($i = 0; $i < $numProducts; $i++) {
                 $photoFactory = new \Database\Factories\PhotoFactory;
@@ -109,8 +109,13 @@ class DatabaseSeeder extends Seeder
         }
         //Создание отзывов
         $reviewFactory = new \Database\Factories\ReviewFactory;
-        if (Review::count() < 5000) {
+        if (Review::count() < 10000) {
             $reviewFactory->созданиеОтзывов();
+        }
+        //Создание положительных отзывов
+        $reviewFactory = new \Database\Factories\ReviewFactory;
+        if (Review::count() < 20000) {
+            $reviewFactory->положительныеОтзывы();
         }
     }
 }

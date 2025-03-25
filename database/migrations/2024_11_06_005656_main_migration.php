@@ -73,6 +73,7 @@ return new class extends Migration {
             $table->date('дата_найма');
             $table->decimal('зарплата', 10, 2);
             $table->string('адрес', 500)->nullable();
+            $table->string('фото')->nullable()->default('faker/workers/default.png');
             $table->timestamps();
         });
 
