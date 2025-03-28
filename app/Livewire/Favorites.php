@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Favorites extends Component
 {
     public $productId;
+
     public $isFavorite = false;
 
     public function mount($productId)

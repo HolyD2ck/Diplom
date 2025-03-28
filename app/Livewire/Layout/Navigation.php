@@ -13,7 +13,12 @@ class Navigation extends Component
     public $cartCount = 0;
     public $favoriteCount = 0;
 
-    protected $listeners = ['cartUpdated' => 'updateCartCount', 'orderAdded' => 'updateCartCount', 'favoriteUpdated' => 'updateFavoriteCount'];
+    protected $listeners = [
+        'cartUpdated' => 'updateCartCount',
+        'orderAdded' => 'updateCartCount',
+        'favoriteUpdated' => 'updateFavoriteCount',
+        'newPhoto' => 'updatePhoto',
+    ];
 
     public function mount()
     {
@@ -37,6 +42,10 @@ class Navigation extends Component
             $favorites = session()->get('favorites', []);
             $this->favoriteCount = count($favorites);
         }
+    }
+    public function updatePhoto()
+    {
+        $this->dispatch('');
     }
 
     public function logout(): void

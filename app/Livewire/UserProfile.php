@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class UserProfile extends Component
 {
@@ -40,6 +41,8 @@ class UserProfile extends Component
 
     public function updatePhoto()
     {
+        \Log::info('Начало обновления фото для пользователя: ' . Auth::id());
+
         $this->validate([
             'newPhoto' => 'required|image|max:4096',
         ]);
@@ -47,19 +50,37 @@ class UserProfile extends Component
         $user = Auth::user();
         $userFolder = 'img/users/' . str_replace(' ', '_', strtolower($user->name));
 
-        if ($user->photo && Storage::exists($user->photo)) {
-            Storage::delete($user->photo);
+        if (!file_exists(public_path($userFolder))) {
+            mkdir(public_path($userFolder), 0777, true);
+            \Log::info("Создана папка: " . public_path($userFolder));
         }
 
         $fileName = 'user_' . $user->id . '_' . time() . '.' . $this->newPhoto->getClientOriginalExtension();
-        $path = $this->newPhoto->storeAs($userFolder, $fileName, 'public');
+        $dbPath = $userFolder . '/' . $fileName;
+        $fullPath = public_path($dbPath);
 
-        $user->update(['photo' => $path]);
+        try {
+            $this->newPhoto->storeAs($userFolder, $fileName, 'public_uploads');
+            \Log::info("Фото успешно загружено: {$dbPath}");
 
-        $this->reset('newPhoto', 'newPhotoPreview');
 
-        session()->flash('message', 'Фото успешно обновлено!');
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update(['фото' => $dbPath]);
+
+            \Log::info("База данных обновлена: новое фото = " . $dbPath);
+
+            $this->newPhotoPreview = asset($dbPath);
+            $this->reset('newPhoto');
+
+            session()->flash('message', 'Фото успешно обновлено!');
+            $this->dispatch('newPhoto');
+        } catch (\Exception $e) {
+            \Log::error("Ошибка при загрузке фото: " . $e->getMessage());
+            session()->flash('error', 'Ошибка при загрузке фото.');
+        }
     }
+
 
     public function render()
     {

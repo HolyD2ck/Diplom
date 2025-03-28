@@ -105,7 +105,8 @@
                                         class="bg-white rounded-lg shadow-md p-6 flex items-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.01] relative">
                                         <!-- Иконка избранного (в правом верхнем углу) -->
                                         <div class="absolute top-4 right-4">
-                                            <livewire:favorites :productId="$product['id']" />
+                                            <livewire:favorites :productId="$product['id']"
+                                                wire:key="favorite-{{ $product['id'] }}" />
                                         </div>
 
                                         <!-- Изображение -->

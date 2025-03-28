@@ -22,7 +22,7 @@
 
                             <!-- История заказов -->
                             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Ваши заказы</h2>
+                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4"></h2>
                                 <livewire:user-profile />
                             </div>
                         </div>

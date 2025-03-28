@@ -4,12 +4,14 @@ namespace App\Livewire;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Favorite;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Auth;
 class ShopProducts extends Component
 {
+    protected $listeners = ['favoriteUpdated' => '$refresh'];
     public $categoryId;
     public $category = null;
     public $products = [];
@@ -56,9 +58,26 @@ class ShopProducts extends Component
         $response = Http::timeout(15)->get($fullUrl);
         $this->products = $response->json();
 
+        if (isset($this->products['data'])) {
+            foreach ($this->products['data'] as &$product) {
+                $product['is_favorite'] = $this->checkFavoriteStatus($product['id']);
+            }
+        }
+
         Log::info('Продукты Загружены:');
 
-        $this->dispatch('refresh');
+    }
+
+    protected function checkFavoriteStatus($productId)
+    {
+        if (Auth::check()) {
+            return Favorite::where('пользователь_id', Auth::id())
+                ->where('товар_id', $productId)
+                ->exists();
+        }
+
+        $favorites = session()->get('favorites', []);
+        return in_array($productId, $favorites);
     }
 
     public function applyFilters()
