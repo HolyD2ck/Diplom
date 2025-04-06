@@ -24,7 +24,12 @@ class Category extends Model
     // Связь многие ко многим с атрибутами
     public function аттрибуты()
     {
-        return $this->belongsToMany(Attribute::class, 'категория_атрибуты', 'категория_id', 'атрибут_id');
+        return $this->belongsToMany(
+            Attribute::class,
+            'категория_атрибуты',
+            'категория_id',
+            'атрибут_id'
+        );
     }
 
 }

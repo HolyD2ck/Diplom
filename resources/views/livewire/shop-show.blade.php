@@ -8,8 +8,8 @@
                     <div
                         class="bg-white rounded-lg shadow-md p-6 flex flex-col lg:flex-row items-center hover:shadow-lg transition-all duration-300 relative">
                         <!-- Иконка избранного (в правом верхнем углу) -->
-                        <div class="absolute top-6 right-6 z-10">
-                            <livewire:favorites :productId="$product['id']" />
+                        <div class="absolute top-4 right-4">
+                            <livewire:favorites :productId="$product['id']" wire:key="favorite-{{ $product['id'] }}" />
                         </div>
 
                         <!-- Фото -->

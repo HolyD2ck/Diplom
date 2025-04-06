@@ -26,8 +26,10 @@ class SupplierFactory extends Factory
             'вебсайт' => $this->faker->url(),
             'банковский_счет' => $this->faker->numerify('####################'),
             'инн' => $this->faker->numerify('##########'),
-            'дата_начала_сотрудничества' => $this->faker->dateTimeBetween('-10 years', '-1 year')->format('Y-m-d'),
-            'дата_окончания_сотрудничества' => $this->faker->optional(0.5)->dateTimeBetween('-1 year', 'now')?->format('Y-m-d'),
+            'дата_начала_сотрудничества' => $this->faker->dateTimeBetween('-10 years', '-1 year')
+                ->format('Y-m-d'),
+            'дата_окончания_сотрудничества' => $this->faker->optional(0.5)
+                ->dateTimeBetween('-1 year', 'now')?->format('Y-m-d'),
         ];
     }
 }

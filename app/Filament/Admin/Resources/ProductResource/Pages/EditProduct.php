@@ -40,7 +40,8 @@ class EditProduct extends EditRecord
         DB::table('фотографии')->where('товар_id', $productId)->delete();
 
         if (isset($this->data['основное_фото'])) {
-            $mainPhotoPath = "photos/products/" . (is_array($this->data['основное_фото']) ? reset($this->data['основное_фото']) : $this->data['основное_фото']);
+            $mainPhotoPath = "photos/products/" . (is_array($this->data['основное_фото']) ? reset($this->data['основное_фото'])
+                : $this->data['основное_фото']);
             DB::table('фотографии')->insert([
                 'товар_id' => $productId,
                 'путь' => $mainPhotoPath,

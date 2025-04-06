@@ -87,7 +87,8 @@ class MainApiController extends Controller
                     $query->orderByRaw('цена * (1 - скидка / 100) DESC');
                     break;
                 case 'rating_desc':
-                    $query->withAvg('среднийРейтинг as средний_рейтинг', 'средний_рейтинг')->orderBy('средний_рейтинг', 'desc');
+                    $query->withAvg('среднийРейтинг as средний_рейтинг', 'средний_рейтинг')
+                        ->orderBy('средний_рейтинг', 'desc');
                     break;
                 case 'newest':
                     $query->orderBy('дата_поступления_в_продажу', 'desc');

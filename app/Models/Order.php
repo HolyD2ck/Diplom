@@ -37,7 +37,14 @@ class Order extends Model
     // Дополнительный метод для получения товаров через детали заказа
     public function товары()
     {
-        return $this->hasManyThrough(Product::class, OrderDetail::class, 'заказ_id', 'id', 'id', 'товар_id');
+        return $this->hasManyThrough(
+            Product::class,
+            OrderDetail::class,
+            'заказ_id',
+            'id',
+            'id',
+            'товар_id'
+        );
     }
     // Метод для пересчета итоговой цены
     public function пересчитатьИтоговуюЦену()

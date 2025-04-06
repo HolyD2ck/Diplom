@@ -45,7 +45,8 @@ class Product extends Model
     // Связь с значениями атрибутов (множество атрибутов для каждого товара)
     public function значенияАтрибутов()
     {
-        return $this->hasMany(AttributeValue::class, 'товар_id')->with('атрибут:id,название');
+        return $this->hasMany(AttributeValue::class, 'товар_id')
+            ->with('атрибут:id,название');
     }
 
     // Связь с фотографиями (множество фотографий для каждого товара)
@@ -57,13 +58,15 @@ class Product extends Model
     // Получить основное фото товара
     public function основноеФото()
     {
-        return $this->hasOne(Photo::class, 'товар_id')->where('основное', true);
+        return $this->hasOne(Photo::class, 'товар_id')
+            ->where('основное', true);
     }
 
     // Связь с отзывами
     public function отзывы()
     {
-        return $this->hasMany(Review::class, 'товар_id')->with('пользователь:id,name,фото');
+        return $this->hasMany(Review::class, 'товар_id')
+            ->with('пользователь:id,name,фото');
     }
     public function среднийРейтинг()
     {

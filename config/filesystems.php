@@ -38,10 +38,16 @@ return [
         ],
         'public_direct' => [
             'driver' => 'local',
-            'root' => public_path('photos/products'), // Сохраняем прямо в public/photos/products
+            'root' => public_path('photos/products'),
             'url' => env('APP_URL') . '/photos/products',
             'visibility' => 'public',
             'throw' => false,
+        ],
+        'public_uploads' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
         ],
         'public' => [
             'driver' => 'local',
@@ -61,12 +67,6 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
-        ],
-        'public_uploads' => [
-            'driver' => 'local',
-            'root' => public_path(),
-            'url' => env('APP_URL') . '/public',
-            'visibility' => 'public',
         ],
 
     ],

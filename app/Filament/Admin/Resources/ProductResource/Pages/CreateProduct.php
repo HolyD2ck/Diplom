@@ -35,7 +35,8 @@ class CreateProduct extends CreateRecord
         }
         DB::table('фотографии')->insert([
             'товар_id' => $lastProductId,
-            'путь' => "photos/products/" . (is_array($this->data['основное_фото']) ? reset($this->data['основное_фото']) : $this->data['основное_фото']),
+            'путь' => "photos/products/" . (is_array($this->data['основное_фото']) ?
+                reset($this->data['основное_фото']) : $this->data['основное_фото']),
             'основное' => 1,
         ]);
 
@@ -46,7 +47,5 @@ class CreateProduct extends CreateRecord
                 'основное' => 0,
             ]);
         }
-
-
     }
 }

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Favorite;
+use App\Models\Attribute;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,7 @@ class ShopProducts extends Component
         'price_max' => 9999999,
         'discount_min' => 0,
         'discount_max' => 100,
+        'attributes' => [],
     ];
     public $manufacturers = [];
     public $sortBy = 'default';
@@ -41,7 +43,6 @@ class ShopProducts extends Component
             ->distinct()
             ->pluck('производитель')
             ->toArray();
-
         $this->loadProducts();
     }
 

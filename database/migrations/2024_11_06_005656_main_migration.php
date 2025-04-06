@@ -134,7 +134,7 @@ return new class extends Migration {
         Schema::create('отзывы', function (Blueprint $table) {
             $table->id();
             $table->foreignId('товар_id')->constrained('товары')->onDelete('cascade');
-            $table->foreignId('пользователь_id')->constrained('users')->onDelete('cascade'); // предполагается, что у вас есть таблица users
+            $table->foreignId('пользователь_id')->constrained('users')->onDelete('cascade');
             $table->text('отзыв');
             $table->integer('рейтинг')->nullable()->default(5)->comment('Рейтинг от 1 до 5');
             $table->timestamps();
